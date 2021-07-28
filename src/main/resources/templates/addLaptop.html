@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>SELT</title>
+</head>
+<body>
+<form th:action="@{/addLaptop}" th:object="${laptop}" method="post">
+    <p class="error" th:text="${commonErrro}"></p>
+
+    <td>Producent: </td>
+    <input id="laptopManufacturer" type="text" th:field="*{manufacturer}">
+    <td>Model: </td>
+    <input id="laptopModel" type="text" th:field="*{model}">
+    <td>Numer seryjny: </td>
+    <input id="laptopSerial" type="text" th:field="*{serialNumber}">
+
+    <input type="button" value="Powrót" name="backButton"
+           onClick="javascript:window.location.href='/index'" class="myButton shortButton" >
+    <input type="submit" value="Zapisz" name="saveButton" class="mySubmitButton">
+</form>
+
+</body>
+</html>
