@@ -21,16 +21,10 @@
 <div sec:authorize="hasAuthority('ADMIN')">
     <a th:href="@{/addLaptop}">Dodaj laptopa</a><br>
     <a th:href="@{/addWindowsLicense}">Dodaj licencje Windows</a><br>
-    <a th:href="@{/location}">Dodaj nową lokacje.</a><br>
-    <a th:href="@{/addDepartment}">Dodaj nowy dział.</a><br>
-    <a th:href="@{/updateDepartment}">Edytuj dział.</a><br>
-    <a th:href="@{/resetpassword}">Resetuj hasła!</a><br>
-    <a th:href="@{/deleteUserForm}">Usuń użytkownika.</a><br>
-    <a th:href="@{/updateUserForm}">Edytuj użytkownika.</a><br>
-    <a th:href="@{/acceptholiday}">Akceptacja wniosku.</a><br>
+    <a th:href="@{/showLaptops}">Wyświetl laptopy</a><br>
+    <a th:href="@{/addEmployee}">Dodaj pracownika</a><br>
+
 </div>
-<div sec:authorize="hasAuthority('KIEROWNIK')">
-    <a th:href="@{/acceptholiday}">Akceptacja wniosku.</a><br>
 </div>
 <div sec:authorize="isAuthenticated()">
     <a th:href="@{/holiday}">Złóż wniosek</a><br>

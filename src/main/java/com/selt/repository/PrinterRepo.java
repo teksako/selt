@@ -1,4 +1,9 @@
 package com.selt.repository;
 
-public interface PrinterRepo {
+import com.selt.model.Printer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PrinterRepo extends JpaRepository<Printer, Long> {
 }

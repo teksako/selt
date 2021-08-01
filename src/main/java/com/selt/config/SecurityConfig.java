@@ -41,7 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
                 .antMatchers("/index").authenticated()
-                .antMatchers("/index2").permitAll()
+                .antMatchers("/showLaptops").authenticated()
+                .antMatchers("/addEmployee").authenticated()
+                .antMatchers("/addLaptop").hasAuthority("ADMIN")
+                .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);

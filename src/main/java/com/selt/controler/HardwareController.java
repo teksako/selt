@@ -6,47 +6,52 @@ import com.selt.model.UserRole;
 import com.selt.model.Windows;
 import com.selt.repository.WindowsRepo;
 import com.selt.service.LaptopService;
+import com.selt.service.WindowsService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
+@RestController
 @RequiredArgsConstructor
+
 public class HardwareController {
 
-//    UserRole userRole2 = new UserRole();
-//			userRole2.setRole(Role.USER);
-//			roleRepository.save(userRole2);
 
-    @Autowired
+
     private final LaptopService laptopService;
-    private final WindowsRepo windowsRepo;
-    //public Windows windows = new Windows();
 
+    private final WindowsService windowsService;
+
+   // private final Model model;
+
+
+   // private final WindowsRepo windowsRepo;
+
+    @GetMapping({"/showLaptops"})
+    public List<Laptop> getLaptops(){
+        return laptopService.findAl();
+    }
 
 
     @GetMapping({"/addLaptop"})
     public String addLaptopPage(Model model) {
         model.addAttribute("laptop", new Laptop());
+        List<Windows> windowsKeys = windowsService.findAll();
+        model.addAttribute("Keys",windowsKeys);
         return "/addLaptop";
     }
 
     @PostMapping({"/addLaptop"})
-    public String saveLaptop(@ModelAttribute("laptop")  Laptop laptop, Windows windows){
+    public String saveLaptop(@ModelAttribute("laptop")  Laptop laptop){
 
-        //admin.setRoles(Arrays.asList(userRole,userRole2));
-
-        windows.setWindowsKey("WYPNQ-8C467-V2W6J-TX4WX-WT2RQ");
-        windows.setWindowsVersion("10 PRO");
-        windowsRepo.save(windows);
-        laptop.setWindowsKey(windows);
         laptopService.save(laptop);
         return "/index";
     }

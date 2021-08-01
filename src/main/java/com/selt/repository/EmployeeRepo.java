@@ -1,4 +1,9 @@
 package com.selt.repository;
 
-public interface EmployeeRepo {
+import com.selt.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EmployeeRepo extends JpaRepository<Employee, Long> {
 }
