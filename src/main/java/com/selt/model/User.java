@@ -36,16 +36,17 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date createDate;
 
-//    @Column
-//    private Role role;
 
-    @OneToMany
+
+    @ManyToMany
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name="USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name="ROLE_ID")}
+            inverseJoinColumns =  {@JoinColumn(name="ROLE_ID")}
     )
+    //@OrderBy("name ASC")
     private List<UserRole> roles;
+    //private UserRole role;
 
 
 

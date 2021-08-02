@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Data
 @Service
 @RequiredArgsConstructor
@@ -15,5 +17,9 @@ public class DepartmentService {
 
     public void save(Department department){
         departmentRepo.save(department);
+    }
+
+    public List<Department> findAll(){
+       return departmentRepo.findAll();
     }
 }

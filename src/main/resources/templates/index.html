@@ -23,11 +23,12 @@
     <a th:href="@{/addWindowsLicense}">Dodaj licencje Windows</a><br>
     <a th:href="@{/showLaptops}">Wyświetl laptopy</a><br>
     <a th:href="@{/addEmployee}">Dodaj pracownika</a><br>
-
+    <a th:href="@{/addUser}">Dodaj użytkownika</a><br>
+    <a th:href="@{/addDepartment}">Dodaj dział</a><br>
+    <a th:href="@{/addLocation}">Dodaj lokalizacje</a><br>
 </div>
 </div>
 <div sec:authorize="isAuthenticated()">
-    <a th:href="@{/holiday}">Złóż wniosek</a><br>
     <a th:href="@{/changepassword}">Zmień hasło--nie działa</a><br>
     <a th:href="@{/raport}">Raport</a><br>
     <a th:href="@{/help}">Pomoc</a><br>

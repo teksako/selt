@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addEmployee").authenticated()
                 .antMatchers("/addLaptop").hasAuthority("ADMIN")
                 .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
+                .antMatchers("/addDepartment").hasAuthority("ADMIN")
+                .antMatchers("/addUser").hasAuthority("ADMIN")
+                .antMatchers("/addLocation").hasAuthority("ADMIN")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);

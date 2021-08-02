@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,4 +25,14 @@ public class Employee {
 
     @Column
     private String workplace;
+
+    @OneToOne
+    @JoinTable(
+            name = "employee_department",
+            joinColumns = {@JoinColumn(name = "EMPLOYEE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "DEPARTMENT_ID")}
+    )
+
+    private Department department;
+
 }

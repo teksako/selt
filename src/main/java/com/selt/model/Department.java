@@ -21,7 +21,10 @@ public class Department {
     @Column
     private String nameOfDepartment;
 
-    @OneToMany
+    @Column
+    private Long MPK;
+
+    @ManyToMany
     @JoinTable
             (
             name = "department_location",
