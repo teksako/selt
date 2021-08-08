@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface LaptopRepo extends JpaRepository<Laptop, Long> {
 
-    
+    List<Laptop> findAllByEmployee_Lastname(String lastname);
 }

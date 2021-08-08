@@ -5,15 +5,15 @@
     <title>SELT</title>
 </head>
 <body>
-<form th:action="@{/addLaptop}" th:object="${laptop}" method="post">
+<form th:action="@{/addComputer}" th:object="${computer}" method="post">
     <p class="error" th:text="${commonErrro}"></p>
 
     <td>Producent:</td>
-    <input id="laptopManufacturer" type="text" th:field="*{manufacturer}">
+    <input id="computerManufacturer" type="text" th:field="*{manufacturer}">
     <td>Model:</td>
-    <input id="laptopModel" type="text" th:field="*{model}">
+    <input id="computerModel" type="text" th:field="*{model}">
     <td>Numer seryjny:</td>
-    <input id="laptopSerial" type="text" th:field="*{serialNumber}">
+    <input id="computerSerial" type="text" th:field="*{serialNumber}">
     <td>MAC adres:</td>
     <input id="macAdress" type="text" th:field="*{MACAdress}">
     <td>IP adres:</td>

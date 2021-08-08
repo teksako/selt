@@ -45,9 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addEmployee").authenticated()
                 .antMatchers("/addLaptop").hasAuthority("ADMIN")
                 .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
+                .antMatchers("/addOfficeLicense").hasAuthority("ADMIN")
                 .antMatchers("/addDepartment").hasAuthority("ADMIN")
                 .antMatchers("/addUser").hasAuthority("ADMIN")
                 .antMatchers("/addLocation").hasAuthority("ADMIN")
+                .antMatchers("/addComputer").hasAuthority("ADMIN")
+                .antMatchers("/showUserHardware").hasAuthority("ADMIN")
+                .antMatchers("/addToner").hasAuthority("ADMIN")
+                .antMatchers("/addPhone").hasAuthority("ADMIN")
+                .antMatchers("/addPhoneNumber").hasAuthority("ADMIN")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);
@@ -57,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.csrf().disable()
                 .headers().frameOptions().disable();
+
 
     }
 

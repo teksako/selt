@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class MobilePhone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MONILEPHONE_ID")
+    @Column(name = "MOBILEPHONE_ID")
     private Long id;
 
     @Column
@@ -29,4 +29,23 @@ public class MobilePhone {
     private String serialNumber;
 
 
+    @OneToOne
+    @JoinTable(
+            name=("PHONE_NUMBER"),
+            joinColumns = {@JoinColumn(name = "MOBILEPHONE_ID")},
+            inverseJoinColumns = {@JoinColumn(name="PHONENUMBER_ID")}
+    )
+
+  private PhoneNumber phoneNumber;
+
+    @OneToOne
+    @JoinTable(
+            name = ("PHONE_USER"),
+            joinColumns = {@JoinColumn(name = "MOBILEPHONE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "EMPLOYEE_ID")}
+    )
+    private Employee employee;
 }
+
+
+

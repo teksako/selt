@@ -49,5 +49,20 @@ public class Laptop {
     )
     private Windows windowsKey;
 
+    @OneToOne
+    @JoinTable(
+            name="laptop_office_license",
+            joinColumns = {@JoinColumn(name="LAPTOP_ID")},
+            inverseJoinColumns ={@JoinColumn(name="OFFICE_ID")}
+    )
+    private Office officeKey;
+
+    @OneToOne
+    @JoinTable(
+            name="laptop_owner",
+            joinColumns = {@JoinColumn(name ="LAPTOP_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "EMPLOYEE_ID")}
+    )
+    private Employee employee;
 
 }

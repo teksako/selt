@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,4 +23,33 @@ public class Printer {
 
     @Column
     private String manufaturer;
+
+    @Column
+    private String serialNumber;
+
+    @Column
+    private String IPAdress;
+
+    @Column
+    private String MACAdress;
+
+    @OneToOne
+    @JoinTable(
+            name="PRINTER_LOCATION",
+            joinColumns  ={@JoinColumn(name ="PRINTER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "DEPARTMENT_ID")}
+    )
+
+    private Department department;
+
+    @OneToMany
+    @JoinTable(
+            name = "PRINTER_TONER",
+            joinColumns ={@JoinColumn(name ="PRINTER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TONER_ID")}
+    )
+
+    private List<Toner> toner;
+
+
 }

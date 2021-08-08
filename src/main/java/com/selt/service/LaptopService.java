@@ -20,8 +20,12 @@ public class LaptopService {
         laptopRepo.save(laptop);
     }
 
-    public List<Laptop> findAl(){
+    public List<Laptop> findAll(){
         return laptopRepo.findAll();
+    }
+
+    public List<Laptop> findAllByEmployee(){
+        return laptopRepo.findAllByEmployee_Lastname("Sobolewski");
     }
 
 
