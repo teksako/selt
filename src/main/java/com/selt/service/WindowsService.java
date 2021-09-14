@@ -16,11 +16,15 @@ public class WindowsService {
     private final WindowsRepo windowsRepo;
 
 
-    public void save(Windows windows){
+    public void save(Windows windows) {
         windowsRepo.save(windows);
     }
 
-    public List<Windows> findAll(){
+    public void delete(Windows windows) {
+        windowsRepo.delete(windows);
+    }
+
+    public List<Windows> findAll() {
         return windowsRepo.findAll();
     }
 }

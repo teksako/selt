@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "PHONENUMBER")
+@Table(name = "NUMBER")
 @NoArgsConstructor
 public class PhoneNumber {
 

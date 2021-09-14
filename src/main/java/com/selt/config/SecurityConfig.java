@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addToner").hasAuthority("ADMIN")
                 .antMatchers("/addPhone").hasAuthority("ADMIN")
                 .antMatchers("/addPhoneNumber").hasAuthority("ADMIN")
+                .antMatchers("/addPrinter").hasAuthority("ADMIN")
+                .antMatchers("/deleteToner").hasAuthority("ADMIN")
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);

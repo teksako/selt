@@ -13,11 +13,15 @@ public class PhoneNumberService {
 
     private final PhoneNumberRepo phoneNumberRepo;
 
-    public void save(PhoneNumber phoneNumber){
+    public void save(PhoneNumber phoneNumber) {
         phoneNumberRepo.save(phoneNumber);
     }
 
-    public List<PhoneNumber> findAll(){
+    public void delete(PhoneNumber phoneNumber) {
+        phoneNumberRepo.delete(phoneNumber);
+    }
+
+    public List<PhoneNumber> findAll() {
         return phoneNumberRepo.findAll();
     }
 }

@@ -18,7 +18,11 @@ public class LocationService {
         locationRepo.save(location);
     }
 
-    public List<Location> findAll(){
+    public void delete(Location location) {
+        locationRepo.save(location);
+    }
+
+    public List<Location> findAll() {
         return locationRepo.findAll();
     }
 

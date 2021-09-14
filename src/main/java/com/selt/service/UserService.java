@@ -27,8 +27,11 @@ public class UserService {
 //        return userRepo.findAllByUsername("admin");
 //    }
 
+    public void delete(User user) {
+        userRepo.delete(user);
+    }
 
-    public void save(User user, String password){
+    public void save(User user, String password) {
         user.setCreateDate(new Date());
         user.setPassword(passwordEncoder.encode(password));
         userRepo.save(user);
@@ -38,7 +41,7 @@ public class UserService {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public String actualLoginUser(){
+    public String actualLoginUser() {
         return userDetailsService().getUsername();
     }
 

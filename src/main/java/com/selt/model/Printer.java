@@ -22,7 +22,7 @@ public class Printer {
     private String model;
 
     @Column
-    private String manufaturer;
+    private String manufacturer;
 
     @Column
     private String serialNumber;

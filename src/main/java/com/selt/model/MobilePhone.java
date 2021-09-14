@@ -33,7 +33,7 @@ public class MobilePhone {
     @JoinTable(
             name=("PHONE_NUMBER"),
             joinColumns = {@JoinColumn(name = "MOBILEPHONE_ID")},
-            inverseJoinColumns = {@JoinColumn(name="PHONENUMBER_ID")}
+            inverseJoinColumns = {@JoinColumn(name="NUMBER_ID")}
     )
 
   private PhoneNumber phoneNumber;

@@ -48,6 +48,7 @@ public class SeltApplication implements CommandLineRunner {
                    userRole = roleRepository.save(userRole);
                    UserRole userRole2 = new UserRole();
                    userRole2.setRole(Role.USER);
+
                    roleRepository.save(userRole2);
 
 
@@ -58,6 +59,7 @@ public class SeltApplication implements CommandLineRunner {
 			user.setRoles(Arrays.asList(userRole2));
 			//user.setRole(userRole2);
 			user.setEnabled(true);
+			user.setFullname("User");
 			userRepository.save(user);
 
 			User admin = new User();
@@ -65,7 +67,7 @@ public class SeltApplication implements CommandLineRunner {
 			admin.setPassword(encoder.encode("omg11thc"));
 			admin.setCreateDate(new Date());
 			admin.setRoles(Arrays.asList(userRole));
-
+            admin.setFullname("Admin");
 			//admin.setRole(userRole);
 			admin.setEnabled(true);
 			userRepository.save(admin);

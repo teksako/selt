@@ -20,6 +20,10 @@ public class EmployeeService {
         return employeeRepo.findAll();
     }
 
+    public void delete(Employee employee){
+        employeeRepo.delete(employee);
+    }
+
 
     public void save(Employee employee) {
         employeeRepo.save(employee);

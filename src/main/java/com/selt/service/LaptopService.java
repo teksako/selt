@@ -16,15 +16,19 @@ public class LaptopService {
 
     private final LaptopRepo laptopRepo;
 
-    public void save(Laptop laptop){
+    public void save(Laptop laptop) {
         laptopRepo.save(laptop);
     }
 
-    public List<Laptop> findAll(){
+    public void delete(Laptop laptop) {
+        laptopRepo.delete(laptop);
+    }
+
+    public List<Laptop> findAll() {
         return laptopRepo.findAll();
     }
 
-    public List<Laptop> findAllByEmployee(){
+    public List<Laptop> findAllByEmployee() {
         return laptopRepo.findAllByEmployee_Lastname("Sobolewski");
     }
 

@@ -19,6 +19,8 @@ public class DepartmentService {
         departmentRepo.save(department);
     }
 
+    public void delete(Department department){ departmentRepo.save(department);}
+
     public List<Department> findAll(){
        return departmentRepo.findAll();
     }

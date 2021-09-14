@@ -14,11 +14,16 @@ public class OfficeService {
 
     private final OfficeRepo officeRepo;
 
-    public void save(Office office){
+    public void save(Office office) {
         officeRepo.save(office);
     }
 
-    public List<Office> findAll(){
+    public List<Office> findAll() {
         return officeRepo.findAll();
+
+    }
+
+    public void delete(Office office) {
+        officeRepo.delete(office);
     }
 }

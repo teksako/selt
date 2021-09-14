@@ -6,6 +6,7 @@ import com.selt.service.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,15 +21,16 @@ import java.util.List;
 
 public class HardwareController {
 
-
+    private final DepartmentService departmentService;
     private final LaptopService laptopService;
     private final EmployeeService employeeService;
     private final WindowsService windowsService;
     private final OfficeService officeService;
     private final ComputerService computerService;
-    private final TonerService tonerService;
+
     private final MobilePhoneService mobilePhoneService;
     private final PhoneNumberService phoneNumberService;
+    private final PrinterService printerService;
 
 
     @ResponseBody
@@ -47,18 +49,22 @@ public class HardwareController {
         return "/showUserHardware";
     }
 
-
-    @GetMapping({"/addToner"})
-    public String addTonerPage(Model model) {
-        model.addAttribute("toner", new Toner());
-        return "/addToner";
+    @GetMapping({"/addPrinter"})
+    public String addPrinterPage(Model model){
+        model.addAttribute("printer", new Printer());
+        List<Department> departmentList = departmentService.findAll();
+        model.addAttribute("departments", departmentList);
+        return "/addPrinter";
     }
 
-    @PostMapping({"/addToner"})
-    public String saveToner(Toner toner) {
-        tonerService.save(toner);
-        return "/addToner";
+    @PostMapping({"/addPrinter"})
+    public String savePrinter(@ModelAttribute("printer") Printer printer){
+        printerService.save(printer);
+        return "/addPrinter";
     }
+
+
+
 
     @GetMapping({"/addPhone"})
     public String addPhonePage(Model model) {

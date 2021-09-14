@@ -14,7 +14,11 @@ public class MobilePhoneService {
 
     private final MobilePhoneRepo mobilePhoneRepo;
 
-    public void save(MobilePhone mobilePhone){
+    public void save(MobilePhone mobilePhone) {
         mobilePhoneRepo.save(mobilePhone);
+    }
+
+    public void delete(MobilePhone mobilePhone) {
+        mobilePhoneRepo.delete(mobilePhone);
     }
 }
