@@ -40,6 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/login").permitAll()
                 .antMatchers("/index").authenticated()
                 .antMatchers("/showLaptops").authenticated()
                 .antMatchers("/addEmployee").authenticated()
@@ -56,15 +59,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addPhoneNumber").hasAuthority("ADMIN")
                 .antMatchers("/addPrinter").hasAuthority("ADMIN")
                 .antMatchers("/deleteToner").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);
 
-
-
-
         httpSecurity.csrf().disable()
                 .headers().frameOptions().disable();
+//
+//        httpSecurity.formLogin()
+//                .loginPage("/index")
+//                .loginProcessingUrl("/appLogin")
+//                .usernameParameter("username")
+//                .passwordParameter("pass");
+//                //.defaultSuccessUrl("/index", true);
+//
+//        httpSecurity.csrf().disable()
+//                .headers().frameOptions().disable();
+//
+//        httpSecurity.logout()
+//                .logoutSuccessUrl("/login")
+//                .logoutUrl("/logout");
+
 
 
     }

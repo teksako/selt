@@ -16,7 +16,7 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/index"})
+    @GetMapping({"/", "/index"})
     public String mainPage(Model model){
        model.addAttribute("username",  userService.findUserByUsername().getFullname());
 

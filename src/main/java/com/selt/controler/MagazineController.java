@@ -22,7 +22,7 @@ public class MagazineController {
     private final MagazineService magazineService;
 
     @GetMapping({"/Magazine"})
-    public String userPage(Model model) {
+    public String userPage(Model model, TonerMagazine tonerMagazine) {
 
         model.addAttribute("magazine", new TonerMagazine());
         //model.addAttribute("counter", number);
@@ -32,10 +32,30 @@ public class MagazineController {
         return "/Magazine";
     }
 
-    @PostMapping({"/Magazine"})
-    public String saveLocation(@ModelAttribute("magazine") TonerMagazine tonerMagazine, @ModelAttribute("counter") int number) {
-        magazineService.addNew(tonerMagazine,number);
+    @PostMapping({"/Magazine/add"})
+    public String addToner(@ModelAttribute("magazine") TonerMagazine tonerMagazine, Model model) {
+        //String allert="Ujemna liczba!";
+        if(tonerMagazine.getCount()<1l){
+            model.addAttribute("allert", "Ujemna liczba!");
+        }
+            else {
+            magazineService.updateInventory(tonerMagazine, magazineService.getActualCount(tonerMagazine));
+        }
+            return "/Magazine";
+
+    }
+
+    @PostMapping({"/Magazine/remove"})
+    public String removeToner(@ModelAttribute("magazine") TonerMagazine tonerMagazine, Model model) {
+        //String allert="Ujemna liczba!";
+        if(tonerMagazine.getCount()>magazineService.getActualCount(tonerMagazine)){
+            model.addAttribute("allert", "Nie masz tyle na stanie!");
+        }
+        else {
+            magazineService.removeInventory(tonerMagazine, magazineService.getActualCount(tonerMagazine));
+        }
         return "/Magazine";
+
     }
 
     @ResponseBody

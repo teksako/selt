@@ -16,13 +16,26 @@ public class MagazineService {
     private final MagazineRepo magazineRepo;
 
     public Long getActualCount(TonerMagazine tonerMagazine){
-        return
+        Optional<TonerMagazine> actualCounter = magazineRepo.findById(tonerMagazine.getId());
+        return actualCounter.get().getCount();
+
     }
 
-    public void addNew(TonerMagazine tonerMagazine, int addCount) {
+
+
+    public void updateInventory(TonerMagazine tonerMagazine, Long temp) {
         Optional<TonerMagazine> toner1 = magazineRepo.findById(tonerMagazine.getId());
-        //Long add2= Long.valueOf(addCount);
-        Long add=tonerMagazine.getCount()+add2;
+        Long add=tonerMagazine.getCount();
+        add=add+temp;
+        toner1.get().setCount(add);
+        magazineRepo.save(toner1.get());
+
+    }
+
+    public void removeInventory(TonerMagazine tonerMagazine, Long temp) {
+        Optional<TonerMagazine> toner1 = magazineRepo.findById(tonerMagazine.getId());
+        Long add=tonerMagazine.getCount();
+        add=temp-add;
         toner1.get().setCount(add);
         magazineRepo.save(toner1.get());
 
