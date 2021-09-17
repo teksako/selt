@@ -32,7 +32,7 @@ public class MagazineController {
         return "/Magazine";
     }
 
-    @PostMapping({"/Magazine/add"})
+    @PostMapping({"/addMagazine"})
     public String addToner(@ModelAttribute("magazine") TonerMagazine tonerMagazine, Model model) {
         //String allert="Ujemna liczba!";
         if(tonerMagazine.getCount()<1l){
@@ -45,7 +45,7 @@ public class MagazineController {
 
     }
 
-    @PostMapping({"/Magazine/remove"})
+    @PostMapping({"/removeMagazine"})
     public String removeToner(@ModelAttribute("magazine") TonerMagazine tonerMagazine, Model model) {
         //String allert="Ujemna liczba!";
         if(tonerMagazine.getCount()>magazineService.getActualCount(tonerMagazine)){

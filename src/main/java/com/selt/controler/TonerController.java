@@ -16,7 +16,7 @@ import java.util.List;
 public class TonerController {
     private final TonerService tonerService;
 
-    @GetMapping({"/addToner"})
+    @GetMapping({"/Toner"})
     public String addTonerPage(Model model) {
         model.addAttribute("toner", new Toner());
         List<Toner> toners= tonerService.findAll();

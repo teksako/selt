@@ -7,7 +7,7 @@
 <body>
 <p th:text="${allert}"></p>
 <p>Dodaj do magazynu ilość</p>
-<form th:action="@{/Magazine}" th:object="${magazine}" method="post">
+<form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
 
     <td>Toner</td>
 
@@ -24,7 +24,7 @@
     <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
 </form>
 <p>Wydaj toner.</p>
-<form th:action="@{/Magazine}" th:object="${magazine}" method="post">
+<form th:action="@{/removeMagazine}" th:object="${magazine}" method="post">
 
     <td>Toner</td>
 
