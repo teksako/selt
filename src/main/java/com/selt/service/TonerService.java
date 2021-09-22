@@ -1,8 +1,7 @@
 package com.selt.service;
 
 import com.selt.model.Toner;
-import com.selt.model.TonerMagazine;
-import com.selt.repository.MagazineRepo;
+import com.selt.model.Magazine;
 import com.selt.repository.TonerRepo;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class TonerService {
     private final MagazineService magazineService;
 
     public void save(Toner toner) {
-        TonerMagazine magazine = new TonerMagazine();
+        Magazine magazine = new Magazine();
         tonerRepo.save(toner);
         magazine.setCount(0l);
         magazine.setToner(toner);

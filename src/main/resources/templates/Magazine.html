@@ -7,7 +7,7 @@
 <body>
 <p th:text="${allert}"></p>
 <p>Dodaj do magazynu ilość</p>
-<form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
+<!-- <form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
 
     <td>Toner</td>
 
@@ -22,23 +22,28 @@
     <input type="button" value="Powrót" name="backButton"
            onClick="javascript:window.location.href='/index'" class="myButton shortButton">
     <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
-</form>
+</form>-->
 <p>Wydaj toner.</p>
-<form th:action="@{/removeMagazine}" th:object="${magazine}" method="post">
+<form th:action="@{/removeMagazine}" th:object="${printers}" method="post">
 
-    <td>Toner</td>
-
-    <select  id="wydaj" th:field="*{id}">
+    <td>Drukarka:</td>
+    <select id="wydaj" th:field="*{id}">
         <option value="">Wybierz: </option>
-        <option th:each="Key : ${tonerList}"
+        <option th:each="Key : ${printer}"
                 th:value="${Key.id}"
-                th:text="${Key}"></option>
+                th:text="${Key.model}"></option>
     </select>
+
+
     </td>
-    <input id="subtoner" th:field="*{count}" type="text">
-    <input type="button" value="Powrót" name="backButton"
-           onClick="javascript:window.location.href='/index'" class="myButton shortButton">
-    <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+
+    <input id="subtoner" th:field="*{temp}" type="text">
+        <input type="button" value="Powrót" name="backButton"
+               onClick="javascript:window.location.href='/index'" class="myButton shortButton">
+        <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+
+    </form>
+
 </form>
 
 

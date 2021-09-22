@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "RAPORT")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class TonerRaport {
+public class Raport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +26,12 @@ public class TonerRaport {
     private Long count;
 
 
-//    @ManyToMany
-//    @JoinTable
-//            (
-//                    name = "raport",
-//                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
-//                    inverseJoinColumns = {@JoinColumn(name = "PRINTER_ID")}
-//            )
-//    private List<Printer> printers;
+    @ManyToMany
+    @JoinTable
+            (
+                    name = "toner_raport",
+                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
+                    inverseJoinColumns = {@JoinColumn(name = "PRINTER_ID")}
+            )
+    private List<Printer> printers;
 }

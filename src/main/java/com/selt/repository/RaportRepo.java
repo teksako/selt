@@ -1,9 +1,9 @@
 package com.selt.repository;
 
-import com.selt.model.Magazine;
+import com.selt.model.Raport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MagazineRepo extends JpaRepository<Magazine, Long> {
+public interface RaportRepo extends JpaRepository<Raport, Long> {
 }

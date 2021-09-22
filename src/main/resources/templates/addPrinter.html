@@ -31,13 +31,23 @@
     <td>Numer seryjny: </td>
     <input id="serialnumber" th:field="*{serialNumber}" type="text">
 
-    <td>Numer telefonu</td>
+    <td>Dział:</td>
 
     <select id="department" th:field="*{department}">
         <option value="">Wybierz: </option>
         <option th:each="Key : ${departments}"
                 th:value="${Key.id}"
                 th:text="${Key.nameOfDepartment+' '+Key.locations}"></option>
+    </select>
+    </td>
+
+    <td>Toner:</td>
+
+    <select id="toner" th:field="*{toner}">
+        <option value="">Wybierz: </option>
+        <option th:each="Key : ${toners}"
+                th:value="${Key.id}"
+                th:text="${Key.tonerName}"></option>
     </select>
     </td>
 

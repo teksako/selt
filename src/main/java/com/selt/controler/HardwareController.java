@@ -27,7 +27,7 @@ public class HardwareController {
     private final WindowsService windowsService;
     private final OfficeService officeService;
     private final ComputerService computerService;
-
+    private final TonerService tonerService;
     private final MobilePhoneService mobilePhoneService;
     private final PhoneNumberService phoneNumberService;
     private final PrinterService printerService;
@@ -53,6 +53,8 @@ public class HardwareController {
     public String addPrinterPage(Model model){
         model.addAttribute("printer", new Printer());
         List<Department> departmentList = departmentService.findAll();
+        List<Toner> tonerList=tonerService.findAll();
+        model.addAttribute("toners", tonerList);
         model.addAttribute("departments", departmentList);
         return "/addPrinter";
     }
@@ -61,6 +63,12 @@ public class HardwareController {
     public String savePrinter(@ModelAttribute("printer") Printer printer){
         printerService.save(printer);
         return "/addPrinter";
+    }
+
+    @ResponseBody
+    @GetMapping({"/showPrinters"})
+    public List<Printer>showPrinters(){
+        return printerService.findAll();
     }
 
 

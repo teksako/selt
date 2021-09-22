@@ -42,14 +42,14 @@ public class Printer {
 
     private Department department;
 
-    @OneToMany
+    @ManyToOne
     @JoinTable(
             name = "PRINTER_TONER",
             joinColumns ={@JoinColumn(name ="PRINTER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "TONER_ID")}
     )
 
-    private List<Toner> toner;
+    private Toner toner;
 
 
 }
