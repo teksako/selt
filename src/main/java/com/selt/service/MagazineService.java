@@ -2,6 +2,7 @@ package com.selt.service;
 
 import com.selt.model.Printer;
 import com.selt.model.Magazine;
+import com.selt.model.Raport;
 import com.selt.model.Temp;
 import com.selt.repository.MagazineRepo;
 import com.selt.repository.PrinterRepo;
@@ -17,6 +18,7 @@ public class MagazineService {
 
     private final MagazineRepo magazineRepo;
     private final PrinterRepo printerRepo;
+    private final RaportService raportService;
 
     public Long getActualCount(Magazine magazine){
         Optional<Magazine> actualCounter = magazineRepo.findById(magazine.getId());
@@ -54,17 +56,31 @@ public class MagazineService {
 //
 //    }
 
-    public void removeInventory(Printer printer, Temp temp) {
+//    ------druga wersja bez licznika----------------------------
+//    public void removeInventory(Printer printer, int temp) {
+//
+//        Magazine magazine=new Magazine();
+//       //Optional<Magazine> toner1 = getFromPrinter(printer);
+//        Optional<Magazine> toner1 = magazineRepo.findById(getFromPrinter(printer));
+//        //Long temp = 2l;
+//        Long add=toner1.get().getCount();
+//       // Long add= magazine.getCount();
+//        add=add-temp;
+//        toner1.get().setCount(add);
+//        magazineRepo.save(toner1.get());
+//
+//    }
 
-        Magazine magazine=new Magazine();
-       //Optional<Magazine> toner1 = getFromPrinter(printer);
-        Optional<Magazine> toner1 = magazineRepo.findById(getFromPrinter(printer));
-        //Long temp = 2l;
-        Long add=toner1.get().getCount();
-       // Long add= magazine.getCount();
-        add=add-temp.getTemp();
-        toner1.get().setCount(add);
+
+    public void removeInventory(Magazine magazine, Long temp) {
+        Raport raport = new Raport();
+        Optional<Magazine> toner1 = magazineRepo.findById(magazine.getId());
+        toner1.get().setCount(temp-magazine.getCount());
         magazineRepo.save(toner1.get());
+        Optional<Printer> printer = printerRepo.findById(magazine.getId());
+        raport.setPrinters(printer.get());
+        raport.setCount(magazine.getCount());
+        raportService.save(raport);
 
     }
 

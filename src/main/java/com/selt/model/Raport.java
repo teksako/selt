@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,18 +21,18 @@ public class Raport {
     private Long id;
 
     @Column
-    private Date date;
+    private LocalDate date;
 
     @Column
     private Long count;
 
 
-    @ManyToMany
+    @OneToOne
     @JoinTable
             (
                     name = "toner_raport",
                     joinColumns = {@JoinColumn(name = "RAPORT_ID")},
                     inverseJoinColumns = {@JoinColumn(name = "PRINTER_ID")}
             )
-    private List<Printer> printers;
+    private Printer printers;
 }

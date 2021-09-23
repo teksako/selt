@@ -7,10 +7,7 @@ import com.selt.service.TonerService;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,10 +62,14 @@ public class MagazineController {
 //    }
 
     @PostMapping({"/removeMagazine"})
-    public String removeToner(@ModelAttribute("printers") Printer printer, @ModelAttribute("counter") Temp counter) {
+    public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
+        if(magazine.getCount()>magazineService.getActualCount(magazine)){
+            model.addAttribute("allert", "Nie masz tyle na stanie!");
+        }
+        else {
 
-            magazineService.removeInventory(printer, counter);
-
+            magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
+        }
         return "/Magazine";
 
     }
