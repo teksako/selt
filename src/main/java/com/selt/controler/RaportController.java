@@ -5,6 +5,7 @@ import com.selt.model.Raport;
 import com.selt.service.RaportService;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,6 +16,13 @@ import java.util.List;
 public class RaportController {
 
     private final RaportService raportService;
+
+    @GetMapping({"/Raport"})
+    public String getRaport(Model model){
+        List<Raport> raport=raportService.findAll();
+        model.addAttribute("raport", raport);
+        return "/Raport";
+    }
 
     @ResponseBody
     @GetMapping({"/showRaport"})

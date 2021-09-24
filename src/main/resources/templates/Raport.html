@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Raport</title>
+</head>
+<body>
+<p>---------RAPORT----------</p>
+<table border="1" class="table table-striped table-responsive-md">
+    <tbody>
+    <tr th:each="key : ${raport}">
+        <td th:text="${key.id}"></td>
+        <td th:text="${key.Printers.getDepartment()}"></td>
+        <td th:text="${key.Printers.getToner().getTonerName()}"></td>
+        <td th:text="${key.count}"></td>
+
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

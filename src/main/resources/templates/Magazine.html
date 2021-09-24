@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Magazyn</title>
 </head>
 <body>
 <p th:text="${allert}"></p>
 <p>Dodaj do magazynu ilość</p>
-<!-- <form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
+<form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
 
     <td>Toner</td>
 
@@ -22,7 +22,7 @@
     <input type="button" value="Powrót" name="backButton"
            onClick="javascript:window.location.href='/index'" class="myButton shortButton">
     <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
-</form>-->
+</form>
 <p>Wydaj toner.</p>
 <form th:action="@{/removeMagazine}" th:object="${magazine}" method="post">
 
@@ -45,6 +45,19 @@
     </form>
 
 </form>
+<p>---------MAGAZYN----------</p>
+<table border="1" class="table table-striped table-responsive-md">
+    <tbody>
+    <tr th:each="key : ${tonerList}">
+        <td th:text="${key.id}"></td>
+        <td th:text="${key.Toner.getTonerName()}"></td>
+        <td th:text="${key.count}"></td>
+
+
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 
 </body>
