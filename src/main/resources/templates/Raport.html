@@ -3,17 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <title>Raport</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        function myFunction() {
+            var checkBox = document.getElementById("myCheck");
+            var text = document.getElementById("display");
+
+            if (checkBox.checked == true) {
+                text.style.display = "block";
+
+            } else if (checkBox.checked == false) {
+                text.style.display = "none";
+
+            }
+        }
+    </script>
+    <script>
+        $(function () {
+            $('#from').datepicker({
+                showOnFocus: false,
+                showTrigger: '#calImg',
+                beforeShowDay: $.datepicker.noWeekends,
+                pickerClass: 'noPrevNext',
+                numberOfMonths: 1,
+                dateFormat: 'yy-mm-dd',
+                //altFormat: "DD, d MM, yy",
+
+                onSelect: function (dateStr) {
+                    var min = $(this).datepicker('getDate');
+                    $('#to').datepicker('option');
+                    datepicked();
+                }
+            });
+            $('#to').datepicker({
+                showOnFocus: false,
+                showTrigger: '#calImg',
+                beforeShowDay: $.datepicker.noWeekends,
+                pickerClass: 'noPrevNext',
+                numberOfMonths: 1,
+                dateFormat: 'yy-mm-dd',
+                //altFormat: "DD, d MM, yy",
+
+                onSelect: function (dateStr) {
+                    var max = $(this).datepicker('getDate');
+                    $('#from').datepicker('option');
+                    datepicked();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
+<form th:action="@{/Raport}" th:object="${temp}" method="post">
+<ul>
+    <li>
+        <input id="features1" name="features" type="radio" th:field="*{radio}" th:value="${1}"  onclick="myFunction()"/>
+
+        <label for="features1">Pokaz aktualny miesiąc</label>
+    </li>
+    <li>
+        <input id="features2" name="features" type="radio" th:field="*{radio}" th:value="${2}" onclick="myFunction()"/>
+
+        <label for="features2">Pokaż wszystko</label>
+    </li>
+    <li>
+        <input id="myCheck" name="features" type="radio" th:field="*{radio}" th:value="${3}" onclick="myFunction()"/>
+
+        <label for="myCheck">Wybierz daty</label>
+    </li>
+    <li>
+        <input id="search" name="features" type="radio" th:field="*{radio}" th:value="${4}" onclick="myFunction() "/>
+
+        <label for="search">Wyszukaj</label>
+    </li>
+</ul>
+<div id="display" style="display:none">
+    <p id="text">Dzień rozpoczęcia:</p>
+
+    <input type="text" id="from" class="myTextButton" th:field="*{start}" placeholder="startDate"/>
+    <p id="text2"> Dzień zakończenia:</p>
+
+    <input type="text" id="to" class="myTextButton" th:field="*{end}" placeholder="endDate"/>
+</div>
+    <p>Wyszukaj</p>
+    <input type="text" id="temp" class="myTextButton" th:field="*{tempString}" />
+
+<input type="submit" value="Wyświetl" name="saveButton" class="mySubmitButton">
+</form>
 <p>---------RAPORT----------</p>
-<table border="1" class="table table-striped table-responsive-md">
+<table border="1" >
+    <thead>
+    <tr>
+        <th>Toner</th>
+        <th>Ilość</th>
+        <th>Drukarka</th>
+        <th>Dział</th>
+        <th>MPK</th>
+        <th>Data</th>
+    </tr>
+    </thead>
     <tbody>
     <tr th:each="key : ${raport}">
-        <td th:text="${key.id}"></td>
-        <td th:text="${key.Printers.getDepartment().getNameOfDepartment()}"></td>
-        <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
         <td th:text="${key.Printers.getToner().getTonerName()}"></td>
         <td th:text="${key.count}"></td>
+        <td th:text="${key.Printers.getModel()}"></td>
+        <td th:text="${key.Printers.getDepartment().getNameOfDepartment()}"></td>
+        <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
         <td th:text="${key.date}"></td>
 
 

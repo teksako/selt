@@ -15,7 +15,7 @@
         <option value="">Wybierz: </option>
         <option th:each="Key : ${tonerList}"
                 th:value="${Key.id}"
-                th:text="${Key}"></option>
+                th:text="${Key.getToner().getTonerName()+' '+ Key.count}"></option>
     </select>
     </td>
     <input id="newtoner" th:field="*{count}" type="text">
@@ -31,7 +31,7 @@
         <option value="">Wybierz: </option>
         <option th:each="Key : ${printer}"
                 th:value="${Key.id}"
-                th:text="${Key.model}"></option>
+                th:text="${Key.model+' '+ Key.getDepartment().getNameOfDepartment()+' '+ Key.getToner().getTonerName()}"></option>
     </select>
 
 

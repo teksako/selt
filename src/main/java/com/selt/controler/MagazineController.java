@@ -21,9 +21,9 @@ public class MagazineController {
     private final PrinterService printerService;
 
     @GetMapping({"/Magazine"})
-    public String userPage(Model model, Magazine magazine) {
+    public void userPage(Model model) {
 
-       model.addAttribute("magazine", new Magazine());
+        model.addAttribute("magazine", new Magazine());
         model.addAttribute("printers", new Printer());
         //model.addAttribute("counter", number);
         //List<Toner> tonerList = tonerService.findAll();
@@ -31,7 +31,7 @@ public class MagazineController {
         model.addAttribute("tonerList", magazines);
         List<Printer> printerList = printerService.findAll();
         model.addAttribute("printer", printerList);
-        return "/Magazine";
+        
     }
 
     @PostMapping({"/addMagazine"})
@@ -42,6 +42,7 @@ public class MagazineController {
         } else {
             magazineService.updateInventory(magazine, magazineService.getActualCount(magazine));
         }
+        userPage(model);
         return "/Magazine";
 
     }
@@ -70,6 +71,7 @@ public class MagazineController {
 
             magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
         }
+        userPage(model);
         return "/Magazine";
 
     }
