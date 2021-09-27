@@ -30,8 +30,9 @@ public class DepartmentController {
     }
 
     @PostMapping({"/addDepartment"})
-    public String saveDepartment(Department department){
+    public String saveDepartment(Department department, Model model){
         departmentService.save(department);
-        return "/index";
+        departmentPage(model);
+        return "/addDepartment";
     }
 }

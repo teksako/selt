@@ -12,6 +12,8 @@ import java.util.List;
 public interface RaportRepo extends JpaRepository<Raport, Long> {
     List<Raport> findAllByDateIsBetween(LocalDate start, LocalDate end);
     List<Raport> findAllByPrinters_ModelIsLike(String search);
+    List<Raport> findAllByPrinters_Toner_TonerNameIsLike(String search);
+    List<Raport> findAllByPrinters_Department_NameOfDepartmentIsLike(String search);
 
 
 }

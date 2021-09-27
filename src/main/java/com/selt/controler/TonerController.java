@@ -17,7 +17,7 @@ public class TonerController {
     private final TonerService tonerService;
 
     @GetMapping({"/Toner"})
-    public String addTonerPage(Model model) {
+    public String tonerPage(Model model) {
         model.addAttribute("toner", new Toner());
         List<Toner> toners= tonerService.findAll();
         model.addAttribute("tonerList", toners);
@@ -42,6 +42,7 @@ public class TonerController {
     @PostMapping({"/deleteToner"})
     public String deleteToner(@ModelAttribute("toner") Toner toner){
         tonerService.delete(toner);
+
         return "/Toner";
     }
 
@@ -53,8 +54,9 @@ public class TonerController {
 //        return "/updateToner";
 //    }
     @PostMapping({"/updateToner"})
-    public String saveUpdateToner(@ModelAttribute("toner") Toner toner){
+    public String saveUpdateToner(@ModelAttribute("toner") Toner toner,Model model){
         tonerService.update(toner);
+        tonerPage(model);
         return "/Toner";
     }
 }

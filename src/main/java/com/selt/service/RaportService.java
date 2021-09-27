@@ -31,7 +31,7 @@ public class RaportService {
 
     public List<Raport> findAllByActualMonth() {
         LocalDate start;
-        LocalDate end = null;
+        LocalDate end;
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
         start = LocalDate.of(year, month, 1);
@@ -64,5 +64,13 @@ public class RaportService {
 
     public List<Raport> findAllByDateBetween(LocalDate start, LocalDate end) {
         return raportRepo.findAllByDateIsBetween(start, end);
+    }
+
+    public List<Raport> findAllByPrinters_Toner_TonerNameIsLike(String temp){
+        return raportRepo.findAllByPrinters_Toner_TonerNameIsLike(temp);
+    }
+
+    public List<Raport> findAllByPrinters_Department_NameOfDepartmentIsLike(String temp){
+        return raportRepo.findAllByPrinters_Department_NameOfDepartmentIsLike(temp);
     }
 }

@@ -46,9 +46,7 @@ public class RaportController {
     public String getDate(@ModelAttribute("temp") Temp temp, Model model){
         //TimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         List<Raport> raport = null;
-        //LocalDate start = temp.getStart();
-        //String start = temp.getStart();
-        //List<Raport> raport=raportService.findAll();
+        String mattern = '%'+temp.getTempString()+'%';
         if(temp.getRadio()==2) {
             raport = raportService.findAll();
         }
@@ -60,9 +58,17 @@ public class RaportController {
             //raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart(), formatter),LocalDate.parse(temp.getEnd(),formatter));
             raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart()),LocalDate.parse(temp.getEnd()));
         }
-        if(temp.getRadio()==4) {
-            String mattern = '%'+temp.getTempString()+'%';
+        if(temp.getRadio()==5) {
+
             raport = raportService.search(mattern);
+        }
+        if(temp.getRadio()==6) {
+
+            raport = raportService.findAllByPrinters_Toner_TonerNameIsLike(mattern);
+        }
+        if(temp.getRadio()==7) {
+
+            raport = raportService.findAllByPrinters_Department_NameOfDepartmentIsLike(mattern);
         }
         model.addAttribute("raport", raport);
         return "/Raport";
