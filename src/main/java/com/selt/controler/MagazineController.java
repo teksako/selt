@@ -4,7 +4,9 @@ import com.selt.model.*;
 import com.selt.service.MagazineService;
 import com.selt.service.PrinterService;
 import com.selt.service.TonerService;
+import com.selt.service.UserService;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +21,21 @@ public class MagazineController {
     private final TonerService tonerService;
     private final MagazineService magazineService;
     private final PrinterService printerService;
+    private final UserService userService;
 
     @GetMapping({"/Magazine"})
     public void userPage(Model model) {
-
+        model.addAttribute("temp", new Temp());
         model.addAttribute("magazine", new Magazine());
         model.addAttribute("printers", new Printer());
+        model.addAttribute("username",  userService.findUserByUsername().getFullname());
         //model.addAttribute("counter", number);
         //List<Toner> tonerList = tonerService.findAll();
         List<Magazine> magazines = magazineService.findAll();
         model.addAttribute("tonerList", magazines);
         List<Printer> printerList = printerService.findAll();
         model.addAttribute("printer", printerList);
-        
+
     }
 
     @PostMapping({"/addMagazine"})
@@ -64,16 +68,29 @@ public class MagazineController {
 
     @PostMapping({"/removeMagazine"})
     public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
-        if(magazine.getCount()>magazineService.getActualCount(magazine)){
+        if (magazine.getCount() > magazineService.getActualCount(magazine)) {
             model.addAttribute("allert", "Nie masz tyle na stanie!");
-        }
-        else {
+        } else {
 
             magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
         }
         userPage(model);
         return "/Magazine";
 
+    }
+
+    @PostMapping({"/getMagazine"})
+    public String showMagazine(@ModelAttribute("temp") Temp temp, Model model) {
+        String matterm = '%' + temp.getTempString() + '%';
+        List<Magazine> foundMagazines = magazineService.findAllMagazinesByToner_TonerNameIsLike(matterm);
+
+        if (foundMagazines.size() == 0) {
+
+            model.addAttribute("error", "Nie ma takiego toneru");
+        }
+        model.addAttribute("tonerLists", foundMagazines);
+        userPage(model);
+        return "/Magazine";
     }
 
     @ResponseBody

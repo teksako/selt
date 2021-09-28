@@ -10,28 +10,34 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-primary">
-                <div class="av navbar-nav navbar-right">
-                    <a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
+
+
+            <a class="navbar-brand" href="C:\Users\pawel.kwapisinski\Desktop\selt\src\main\resources\jpg\LOGO - SELT\SELT - logo.pdf">
+            <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
+        </a>
+        <div class="av navbar-nav navbar-right">
+
             <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
                                                                       class="navbar-brand"/></strong></form>
         </div>
     </nav>
 </header>
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
 <h1>Menu</h1>
 <div sec:authorize="hasAuthority('ADMIN')">
-    <a th:href="@{/addLaptop}">Dodaj laptopa</a><br>
-    <a th:href="@{/addWindowsLicense}">Dodaj licencje Windows</a><br>
-    <a th:href="@{/addOfficeLicense}">Dodaj licencje Office</a><br>
-    <a th:href="@{/showLaptops}">Wyświetl laptopy</a><br>
-    <a th:href="@{/addEmployee}">Dodaj pracownika</a><br>
-    <a th:href="@{/addUser}">Dodaj użytkownika</a><br>
+    <!-- <a th:href="@{/addLaptop}">Dodaj laptopa</a><br>
+     <a th:href="@{/addWindowsLicense}">Dodaj licencje Windows</a><br>
+     <a th:href="@{/addOfficeLicense}">Dodaj licencje Office</a><br>
+     <a th:href="@{/showLaptops}">Wyświetl laptopy</a><br>
+     <a th:href="@{/addEmployee}">Dodaj pracownika</a><br>
+     <a th:href="@{/addUser}">Dodaj użytkownika</a><br>
+     <a th:href="@{/addComputer}">Dodaj komputer</a><br>
+     <a th:href="@{/showUserHardware}">Pokaz sprzęty pracownika</a><br>
+     <a th:href="@{/addPhone}">Dodaj telefon</a><br>
+     <a th:href="@{/addPhoneNumber}">Dodaj SIM</a><br>-->
     <a th:href="@{/addDepartment}">Dodaj dział</a><br>
     <a th:href="@{/addLocation}">Dodaj lokalizacje</a><br>
-    <a th:href="@{/addComputer}">Dodaj komputer</a><br>
-    <a th:href="@{/showUserHardware}">Pokaz sprzęty pracownika</a><br>
     <a th:href="@{/Toner}">Dodaj toner</a><br>
-    <a th:href="@{/addPhone}">Dodaj telefon</a><br>
-    <a th:href="@{/addPhoneNumber}">Dodaj SIM</a><br>
     <a th:href="@{/addPrinter}">Dodaj drukarke</a><br>
     <a th:href="@{/deleteToner}">Usuń toner</a><br>
     <a th:href="@{/updateToner}">Aktualizuj toner</a><br>
@@ -40,7 +46,7 @@
 </div>
 </div>
 <div sec:authorize="isAuthenticated()">
-    <a th:href="@{/changepassword}">Zmień hasło--nie działa</a><br>
+    <!-- <a th:href="@{/changepassword}">Zmień hasło--nie działa</a><br>-->
     <a th:href="@{/Raport}">Raport</a><br>
     <a th:href="@{/help}">Pomoc</a><br>
 </div>
