@@ -29,6 +29,7 @@ public class UserController {
        model.addAttribute("user",new User());
         List<UserRole> roleList=roleServis.findAll();
         model.addAttribute("roleList", roleList);
+        model.addAttribute("username",  userService.findUserByUsername().getFullname());
         return "/addUser";
     }
 
@@ -37,6 +38,7 @@ public class UserController {
         model.addAttribute("password", password);
 
         userService.save(user,password);
+        userPage(model);
         return "/index";
     }
 }

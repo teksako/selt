@@ -92,4 +92,8 @@ public class MagazineService {
     public List<Magazine> findAll() {
         return magazineRepo.findAll();
     }
+
+    public List<Magazine> findAllMagazinesByToner_TonerNameIsLike(String temp){
+        return magazineRepo.findAllMagazinesByToner_TonerNameIsLike(temp);
+    }
 }
