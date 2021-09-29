@@ -31,6 +31,7 @@ public class HardwareController {
     private final MobilePhoneService mobilePhoneService;
     private final PhoneNumberService phoneNumberService;
     private final PrinterService printerService;
+    private final UserService userService;
 
 
     @ResponseBody
@@ -42,6 +43,7 @@ public class HardwareController {
 
     @GetMapping({"/showUserHardware"})
     public String getHardwares(Model model) {
+
         List<Computer> computerList = computerService.findAllByEmployee();
         List<Laptop> laptopList = laptopService.findAllByEmployee();
         model.addAttribute("computer", computerList);
@@ -51,6 +53,7 @@ public class HardwareController {
 
     @GetMapping({"/addPrinter"})
     public String addPrinterPage(Model model){
+        model.addAttribute("username",  userService.findUserByUsername().getFullname());
         model.addAttribute("printer", new Printer());
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList=tonerService.findAll();

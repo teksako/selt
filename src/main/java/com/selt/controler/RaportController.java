@@ -58,6 +58,10 @@ public class RaportController {
             //raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart(), formatter),LocalDate.parse(temp.getEnd(),formatter));
             raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart()),LocalDate.parse(temp.getEnd()));
         }
+        if(temp.getRadio()==4) {
+
+            raport = raportService.search(mattern);
+        }
         if(temp.getRadio()==5) {
 
             raport = raportService.search(mattern);
@@ -72,6 +76,7 @@ public class RaportController {
         }
         model.addAttribute("raport", raport);
         return "/Raport";
+
     }
 
     @ResponseBody
