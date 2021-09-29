@@ -19,11 +19,11 @@ public class RaportService {
     private final TempService tempService;
 
 
-    public List<Raport> findAll(){
+    public List<Raport> findAll() {
         return raportRepo.findAll();
     }
 
-    public void save(Raport raport){
+    public void save(Raport raport) {
         raport.setDate(LocalDate.now());
 
         raportRepo.save(raport);
@@ -58,11 +58,21 @@ public class RaportService {
 
     }
 
-    public List<Raport> search(String temp){
+    public List<Raport> search(String temp) {
         return raportRepo.findAllByPrinters_ModelIsLike(temp);
     }
 
     public List<Raport> findAllByDateBetween(LocalDate start, LocalDate end) {
         return raportRepo.findAllByDateIsBetween(start, end);
+
+    }
+
+    public List<Raport> findAllByPrinters_Toner_TonerNameIsLike(String temp) {
+        return raportRepo.findAllByPrinters_Toner_TonerNameIsLike(temp);
+    }
+
+    public List<Raport> findAllByPrinters_Department_NameOfDepartmentIsLike(String temp) {
+        return raportRepo.findAllByPrinters_Department_NameOfDepartmentIsLike(temp);
     }
 }
+

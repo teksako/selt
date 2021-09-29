@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Raport</title>
@@ -9,11 +9,12 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         function myFunction() {
-            var checkBox = document.getElementById("search");
-            var text = document.getElementById("display");
+            const checkBox = document.getElementById("search");
+            const text = document.getElementById("display");
 
             if (checkBox.checked == true) {
                 text.style.display = "block";
+
 
             } else if (checkBox.checked == false) {
                 text.style.display = "none";
@@ -21,15 +22,17 @@
             }
         }
 
-              function myFunction2() {
-            var checkBox = document.getElementById("search");
-            var text = document.getElementById("display");
-
-            if (checkBox.checked == true) {
+        function myFunction2() {
+            const searchDate = document.getElementById("searchDate");
+            const text = document.getElementById("displayDate");
+            const text2 = document.getElementById("displayOtherSearch");
+            if (searchDate.checked == true) {
                 text.style.display = "block";
+                text2.style.display = "none";
 
-            } else if (checkBox.checked == false) {
+            } else if (searchDate.checked == false) {
                 text.style.display = "none";
+                text2.style.display = "block";
 
             }
         }
@@ -70,60 +73,68 @@
 </head>
 <body>
 <form th:action="@{/Raport}" th:object="${temp}" method="post">
-<ul>
-    <li>
-        <input id="features1" name="features" type="radio" th:field="*{radio}" th:value="${1}"  onclick="myFunction()"/>
+    <ul>
+        <li>
+            <input id="features1" name="features" type="radio" th:field="*{radio}" th:value="${1}"
+                   onclick="myFunction()"/>
 
-        <label for="features1">Pokaz aktualny miesiąc</label>
-    </li>
-    <li>
-        <input id="features2" name="features" type="radio" th:field="*{radio}" th:value="${2}" onclick="myFunction()"/>
+            <label for="features1">Pokaz aktualny miesiąc</label>
+        </li>
+        <li>
+            <input id="features2" name="features" type="radio" th:field="*{radio}" th:value="${2}"
+                   onclick="myFunction()"/>
 
-        <label for="features2">Pokaż wszystko</label>
-    </li>
+            <label for="features2">Pokaż wszystko</label>
+        </li>
 
-    <li>
-        <input id="search" name="features" type="radio" th:field="*{radio}" th:value="${4}" onclick="myFunction() "/>
+        <li>
+            <input id="search" name="features" type="radio" th:field="*{radio}" th:value="${4}"
+                   onclick="myFunction() "/>
 
-        <label for="search">Wyszukaj</label>
-    </li>
-</ul>
-
-
-<div id="display" style="display:none">
-   <ul>
-       <il>
-        <input id="searchDate" name="features" type="radio" th:field="*{radio}" th:value="${3}" />
-        <label for="searchDate">Po dacie</label>
-       </il>
-       <il>
-           <input id="searchPrinter" name="features" type="radio" th:field="*{radio}" th:value="${3}" />
-           <label for="searchPrinter">Po drukarce</label>
-       </il>
-       <il>
-           <input id="searchToner" name="features" type="radio" th:field="*{radio}" th:value="${3}" />
-           <label for="searchToner">Po drukarce</label>
-       </il>
-       <il>
-           <input id="searchDepartment" name="features" type="radio" th:field="*{radio}" th:value="${3}" />
-           <label for="searchDepartment">Po drukarce</label>
-       </il>
-
-   </ul>
-</div>
-    <p id="text">Dzień rozpoczęcia:</p>
-
-    <input type="text" id="from" class="myTextButton" th:field="*{start}" placeholder="startDate"/>
-    <p id="text2"> Dzień zakończenia:</p>
-
-    <input type="text" id="to" class="myTextButton" th:field="*{end}" placeholder="endDate"/>
+            <label for="search">Wyszukaj</label>
+        </li>
+    </ul>
 
 
-<input type="submit" value="Wyświetl" name="saveButton" class="mySubmitButton">
-    <input type="text" id="temp" class="myTextButton" th:field="*{tempString}" />
+    <div id="display" style="display:none">
+        <ul>
+
+            <input id="searchDate" name="features" type="radio" th:field="*{radio}" th:value="${3}"
+                   onclick="myFunction2()"/>
+            <label for="searchDate">Po dacie</label>
+
+            <input id="searchPrinter" name="features" type="radio" th:field="*{radio}" th:value="${5}"
+                   onclick="myFunction2()"/>
+            <label for="searchPrinter">Po drukarce</label>
+
+            <input id="searchToner" name="features" type="radio" th:field="*{radio}" th:value="${6}"
+                   onclick="myFunction2()"/>
+            <label for="searchToner">Po tonerze</label>
+
+            <input id="searchDepartment" name="features" type="radio" th:field="*{radio}" th:value="${7}"
+                   onclick="myFunction2()"/>
+            <label for="searchDepartment">Po dziale</label>
+
+
+        </ul>
+    </div>
+    <div id="displayDate" style="display:none">
+        <label for="from">Dzień rozpoczęcia:</label>
+        <input type="text" id="from" class="myTextButton" th:field="*{start}" placeholder="startDate"/>
+
+        <label for="from">Dzień zakończenia:</label>
+        <input type="text" id="to" class="myTextButton" th:field="*{end}" placeholder="endDate"/>
+
+    </div>
+
+    <div id="displayOtherSearch" style="display:none">
+        <p>Wpisz fraze:</p>
+        <input type="text" id="temp" class="myTextButton" th:field="*{tempString}"/>
+    </div>
+    <input type="submit" value="Wyświetl" name="saveButton" class="mySubmitButton">
 </form>
 <p>---------RAPORT----------</p>
-<table border="1" >
+<table border="1">
     <thead>
     <tr>
         <th>Toner</th>
@@ -144,7 +155,7 @@
         <td th:text="${key.date}"></td>
 
 
-        </td>
+
     </tr>
     </tbody>
 </table>
