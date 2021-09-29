@@ -11,13 +11,13 @@
 <header>
     <nav class="navbar navbar-light bg-primary">
         <div class="av navbar-nav navbar-right">
-            <a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
+
             <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
                                                                       class="navbar-brand"/></strong></form>
         </div>
     </nav>
 </header>
-
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
 <form th:action="@{/addPrinter}" th:object="${printer}" method="post">
 
     <td>Producent: </td>
