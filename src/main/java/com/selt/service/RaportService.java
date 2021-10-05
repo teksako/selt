@@ -2,8 +2,10 @@ package com.selt.service;
 
 import com.selt.model.Raport;
 import com.selt.model.Temp;
+import com.selt.model.User;
 import com.selt.repository.RaportRepo;
 import lombok.Data;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ public class RaportService {
     private final RaportRepo raportRepo;
     private LocalDate date;
     private final TempService tempService;
+    private final UserService userService;
 
 
     public List<Raport> findAll() {
@@ -25,7 +28,7 @@ public class RaportService {
 
     public void save(Raport raport) {
         raport.setDate(LocalDate.now());
-
+        raport.setUser(userService.findUserByUsername());
         raportRepo.save(raport);
     }
 
@@ -34,6 +37,34 @@ public class RaportService {
         LocalDate end = null;
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonthValue();
+        start = LocalDate.of(year, month, 1);
+        int day;
+
+        if (year % 4 == 0) {
+
+            if (month == 2) {
+                end = LocalDate.of(year, month, 29);
+            } else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                end = LocalDate.of(year, month, 31);
+            } else {
+                end = LocalDate.of(year, month, 30);
+            }
+        } else {
+            if (month == 2) {
+                end = LocalDate.of(year, month, 28);
+            } else {
+                end = LocalDate.of(year, month, 30);
+            }
+
+        }
+        return raportRepo.findAllByDateIsBetween(start, end);
+
+    }
+    public List<Raport> findAllByPreviousMonth() {
+        LocalDate start;
+        LocalDate end = null;
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue()-1;
         start = LocalDate.of(year, month, 1);
         int day;
 

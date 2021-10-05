@@ -47,6 +47,9 @@ public class RaportController {
         //TimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         List<Raport> raport = null;
         String mattern = '%'+temp.getTempString()+'%';
+        if(temp.getRadio()==0){
+            raport=raportService.findAllByPreviousMonth();
+        }
         if(temp.getRadio()==2) {
             raport = raportService.findAll();
         }

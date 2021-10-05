@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Raport</title>
@@ -69,11 +69,18 @@
                 }
             });
         });
+
     </script>
 </head>
 <body>
 <form th:action="@{/Raport}" th:object="${temp}" method="post">
     <ul>
+        <li>
+            <input id="features" name="features" type="radio" th:field="*{radio}" th:value="${0}"
+                   onclick="myFunction()"/>
+
+            <label for="features">Pokaz poprzedni miesiąc</label>
+        </li>
         <li>
             <input id="features1" name="features" type="radio" th:field="*{radio}" th:value="${1}"
                    onclick="myFunction()"/>
@@ -142,18 +149,26 @@
         <th>Drukarka</th>
         <th>Dział</th>
         <th>MPK</th>
+        <th>Nr. inwentarzowy</th>
         <th>Data</th>
+        <th>Wydający</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="key : ${raport}">
-        <td th:text="${key.Printers.getToner().getTonerName()}"></td>
-        <td th:text="${key.count}"></td>
-        <td th:text="${key.Printers.getModel()}"></td>
-        <td th:text="${key.Printers.getDepartment().getNameOfDepartment()}"></td>
-        <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
-        <td th:text="${key.date}"></td>
+        <div sec:authorize="isAuthenticated()">
+            <td th:text="${key.Printers.getToner().getTonerName()}"></td>
+            <td th:text="${key.count}"></td>
+            <td th:text="${key.Printers.getModel()}"></td>
+            <td th:text="${key.Printers.getDepartment().getNameOfDepartment()}"></td>
+            <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
+            <td th:text="${key.Printers.getInventoryNumber()}"></td>
+            <td th:text="${key.date}"></td>
+        </div>
 
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <td th:text="${key.User.getFullname()}"></td>
+        </div>
 
 
     </tr>
