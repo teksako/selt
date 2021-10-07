@@ -10,7 +10,7 @@
 <header>
     <nav class="navbar navbar-light bg-primary">
         <div class="av navbar-nav navbar-right">
-            <a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
+
             <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
                                                                       class="navbar-brand"/></strong></form>
             <input type="button" value="Powrót" name="backButton"
@@ -18,6 +18,7 @@
         </div>
     </nav>
 </header>
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
 <p th:text="${allert}"></p>
 <p>Dodaj do magazynu ilość</p>
 <form th:action="@{/addMagazine}" th:object="${magazine}" method="post">
@@ -45,7 +46,7 @@
                 th:value="${Key.id}"
                 th:text="${Key.model+' '+ Key.getDepartment().getNameOfDepartment()+' '+ Key.getToner().getTonerName()}"></option>
     </select>
-
+    <!--th:value="${Key.getToner().getId()}"-->
 
     </td>
 
@@ -62,7 +63,7 @@
     <input type="submit" value="Wyświetl" name="saveButton" class="mySubmitButton">
 </form>
 <a th:text="${error}"></a>
-<table border="1" class="table table-striped table-responsive-md">
+<table border="1" >
     <tbody>
     <thead>
     <tr>

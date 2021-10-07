@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Raport</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -73,6 +75,26 @@
     </script>
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-light bg-primary">
+
+
+        <a class="navbar-brand" href="#">
+            <img th:src="@{jpg/LOGO - SELT/SELT - logo.jpg}" width="30" height="30" alt="">
+        </a>
+        <div class="av navbar-nav navbar-right">
+
+            <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
+                                                                      class="navbar-brand"/></strong></form>
+            <input type="button" value="Powrót" name="backButton"
+                   onClick="javascript:window.location.href='/index'" class="navbar-brand">
+
+        </div>
+
+    </nav>
+
+</header>
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
 <form th:action="@{/Raport}" th:object="${temp}" method="post">
     <ul>
         <li>
@@ -144,6 +166,7 @@
 <table border="1">
     <thead>
     <tr>
+        <div sec:authorize="isAuthenticated()">
         <th>Toner</th>
         <th>Ilość</th>
         <th>Drukarka</th>
@@ -151,7 +174,10 @@
         <th>MPK</th>
         <th>Nr. inwentarzowy</th>
         <th>Data</th>
+        </div>
+        <div sec:authorize="hasAuthority('ADMIN')">
         <th>Wydający</th>
+        </div>
     </tr>
     </thead>
     <tbody>

@@ -24,7 +24,7 @@ public class Department {
     @Column
     private Long MPK;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable
             (
             name = "department_location",

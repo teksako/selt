@@ -20,6 +20,13 @@ public class MagazineService {
     private final PrinterRepo printerRepo;
     private final RaportService raportService;
 
+    public Long getActualCountByPrinter(Long id){
+        Optional<Magazine> actualCounter = magazineRepo.findById(id);
+        return actualCounter.get().getCount();
+
+    }
+
+
     public Long getActualCount(Magazine magazine){
         Optional<Magazine> actualCounter = magazineRepo.findById(magazine.getId());
         return actualCounter.get().getCount();
