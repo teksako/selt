@@ -185,7 +185,7 @@
         <div sec:authorize="isAuthenticated()">
             <td th:text="${key.Printers.getToner().getTonerName()}"></td>
             <td th:text="${key.count}"></td>
-            <td th:text="${key.Printers.getModel()}"></td>
+            <td th:text="${key.Printers.getManufacturer()+' '+key.Printers.getModel()}"></td>
             <td th:text="${key.Printers.getDepartment().getNameOfDepartment()}"></td>
             <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
             <td th:text="${key.Printers.getInventoryNumber()}"></td>

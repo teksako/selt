@@ -19,36 +19,37 @@ public class MagazineService {
     private final MagazineRepo magazineRepo;
     private final PrinterRepo printerRepo;
     private final RaportService raportService;
+    private final PrinterService printerService;
 
-    public Long getActualCountByPrinter(Long id){
+    public Long getActualCountByPrinter(Long id) {
         Optional<Magazine> actualCounter = magazineRepo.findById(id);
         return actualCounter.get().getCount();
 
     }
 
 
-    public Long getActualCount(Magazine magazine){
+    public Long getActualCount(Magazine magazine) {
         Optional<Magazine> actualCounter = magazineRepo.findById(magazine.getId());
         return actualCounter.get().getCount();
 
     }
 
-    public Optional<Magazine> findMagazine(Printer printer){
+    public Optional<Magazine> findMagazine(Printer printer) {
         Optional<Magazine> magazine = magazineRepo.findById(getFromPrinter(printer));
         return magazine;
 
     }
 
-    public Long getFromPrinter(Printer printer){
+    public Long getFromPrinter(Printer printer) {
         Optional<Printer> printer1 = printerRepo.findById(printer.getId());
-    Long tonerId=printer1.get().getToner().getId();
-        return  tonerId;
+        Long tonerId = printer1.get().getToner().getId();
+        return tonerId;
     }
 
     public void updateInventory(Magazine magazine, Long temp) {
         Optional<Magazine> toner1 = magazineRepo.findById(magazine.getId());
-        Long add= magazine.getCount();
-        add=add+temp;
+        Long add = magazine.getCount();
+        add = add + temp;
         toner1.get().setCount(add);
         magazineRepo.save(toner1.get());
 
@@ -81,8 +82,8 @@ public class MagazineService {
 
     public void removeInventory(Magazine magazine, Long temp) {
         Raport raport = new Raport();
-        Optional<Magazine> toner1 = magazineRepo.findById(magazine.getId());
-        toner1.get().setCount(temp-magazine.getCount());
+        Optional<Magazine> toner1 = magazineRepo.findById(printerService.getTonerId(magazine.getId()));
+        toner1.get().setCount(temp - magazine.getCount());
         magazineRepo.save(toner1.get());
         Optional<Printer> printer = printerRepo.findById(magazine.getId());
         raport.setPrinters(printer.get());
@@ -100,7 +101,7 @@ public class MagazineService {
         return magazineRepo.findAll();
     }
 
-    public List<Magazine> findAllMagazinesByToner_TonerNameIsLike(String temp){
+    public List<Magazine> findAllMagazinesByToner_TonerNameIsLike(String temp) {
         return magazineRepo.findAllMagazinesByToner_TonerNameIsLike(temp);
     }
 }

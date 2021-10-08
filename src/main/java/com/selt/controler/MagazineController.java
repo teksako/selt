@@ -74,7 +74,7 @@ public class MagazineController {
             model.addAttribute("allert", "Nie masz tyle na stanie!");
         } else {
 
-            magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
+            magazineService.removeInventory(magazine, magazineService.getActualCountByPrinter(printerService.getTonerId(magazine.getId())));
         }
         userPage(model);
         return "/Magazine";
