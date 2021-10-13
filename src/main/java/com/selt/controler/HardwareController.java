@@ -63,7 +63,8 @@ public class HardwareController {
     }
 
     @PostMapping({"/addPrinter"})
-    public String savePrinter(@ModelAttribute("printer") Printer printer){
+    public String savePrinter(@ModelAttribute("printer") Printer printer, Model model){
+        addPrinterPage(model);
         printerService.save(printer);
         return "/addPrinter";
     }

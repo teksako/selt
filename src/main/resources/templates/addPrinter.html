@@ -30,6 +30,11 @@
     <input id="MAC" th:field="*{MACAdress}" type="text">
     <td>Numer seryjny: </td>
     <input id="serialnumber" th:field="*{serialNumber}" type="text">
+    <td>Numer inwentarzowy: </td>
+    <input id="inventorynumber" th:field="*{inventoryNumber}" type="text">
+    <td>Użytkownik: </td>
+    <input id="user" th:field="*{user}" type="text">
+
 
     <td>Dział:</td>
 
@@ -37,7 +42,7 @@
         <option value="">Wybierz: </option>
         <option th:each="Key : ${departments}"
                 th:value="${Key.id}"
-                th:text="${Key.nameOfDepartment+' '+Key.locations}"></option>
+                th:text="${Key.nameOfDepartment+' '+Key.Locations}"></option>
     </select>
     </td>
 

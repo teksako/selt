@@ -68,11 +68,13 @@ public class MagazineController {
 
     @PostMapping({"/removeMagazine"})
     public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
-        if (magazine.getCount() > magazineService.getActualCount(magazine)) {
+        Long chce=magazine.getCount();
+        Long mam=magazineService.getActualCountByPrinter(printerService.getTonerId(magazine.getId()));
+        if ( chce> mam) {
             model.addAttribute("allert", "Nie masz tyle na stanie!");
         } else {
 
-            magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
+            magazineService.removeInventory(magazine, magazineService.getActualCountByPrinter(printerService.getTonerId(magazine.getId())));
         }
         userPage(model);
         return "/Magazine";

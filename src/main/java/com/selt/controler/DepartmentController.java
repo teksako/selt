@@ -25,14 +25,16 @@ public class DepartmentController {
     public String departmentPage(Model model){
         model.addAttribute("department", new Department());
         List<Location> locationList = locationService.findAll();
+        List<Department> departmentList=departmentService.findAll();
+        model.addAttribute("departmentList", departmentList);
         model.addAttribute("locationSList", locationList);
         return "/addDepartment";
     }
 
     @PostMapping({"/addDepartment"})
     public String saveDepartment(Department department, Model model){
-        departmentService.save(department);
         departmentPage(model);
+        departmentService.save(department);
         return "/addDepartment";
     }
 }

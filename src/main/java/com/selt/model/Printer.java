@@ -33,6 +33,12 @@ public class Printer {
     @Column
     private String MACAdress;
 
+    @Column
+    private String user;
+
+    @Column
+    private String inventoryNumber;
+
     @OneToOne
     @JoinTable(
             name="PRINTER_LOCATION",

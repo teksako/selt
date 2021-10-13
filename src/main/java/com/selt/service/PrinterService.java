@@ -16,6 +16,11 @@ public class PrinterService {
 
     private final PrinterRepo printerRepo;
 
+    public Long getTonerId(Long printerId){
+
+        return printerRepo.findById(printerId).get().getToner().getId();
+    }
+
     public List<Printer> findAll(){
         return printerRepo.findAll();
     }

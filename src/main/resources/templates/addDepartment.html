@@ -8,13 +8,13 @@
 <form th:action="@{/addDepartment}" th:object="${department}" method="post">
     <p class="error" th:text="${commonErrro}"></p>
 
-    <td>Nazwa działu: </td>
+    <td>Nazwa działu:</td>
     <input id="nameOfDepartment" type="text" th:field="*{nameOfDepartment}">
 
-    <td>MPK: </td>
+    <td>MPK:</td>
     <input id="MPK" type="text" th:field="*{MPK}">
 
-    <td>Lokalizacja: </td>
+    <td>Lokalizacja:</td>
     <select id="location" th:field="*{locations}">
         <option th:each="key : ${locationSList}"
                 th:value="${key.id}"
@@ -23,9 +23,29 @@
         </option>
     </select>
 
-<input type="button" value="Powrót" name="backButton"
-       onClick="javascript:window.location.href='/index'" class="myButton shortButton" >
-<input type="submit" value="Zapisz" name="saveButton" class="mySubmitButton">
+    <input type="button" value="Powrót" name="backButton"
+           onClick="javascript:window.location.href='/index'" class="myButton shortButton">
+    <input type="submit" value="Zapisz" name="saveButton" class="mySubmitButton">
 </form>
+
+---------------------DZIAŁY----------------------------
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nazwa</th>
+        <th>Lokalizacja</th>
+        <th>MPK</th>
+    </thead>
+    <tbody>
+    <tr th:each="key : ${departmentList}">
+
+        <td th:text="${key.nameOfDepartment}"></td>
+        <td th:text="${key.Locations}"></td>
+        <td th:text="${key.MPK}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

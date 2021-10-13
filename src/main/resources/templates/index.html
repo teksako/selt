@@ -30,26 +30,25 @@
      <a th:href="@{/addOfficeLicense}">Dodaj licencje Office</a><br>
      <a th:href="@{/showLaptops}">Wyświetl laptopy</a><br>
      <a th:href="@{/addEmployee}">Dodaj pracownika</a><br>
-     <a th:href="@{/addUser}">Dodaj użytkownika</a><br>
      <a th:href="@{/addComputer}">Dodaj komputer</a><br>
      <a th:href="@{/showUserHardware}">Pokaz sprzęty pracownika</a><br>
      <a th:href="@{/addPhone}">Dodaj telefon</a><br>
      <a th:href="@{/addPhoneNumber}">Dodaj SIM</a><br>-->
+    <a th:href="@{/addUser}">Dodaj użytkownika</a><br>
     <a th:href="@{/addDepartment}">Dodaj dział</a><br>
     <a th:href="@{/addLocation}">Dodaj lokalizacje</a><br>
     <a th:href="@{/Toner}">Dodaj toner</a><br>
     <a th:href="@{/addPrinter}">Dodaj drukarke</a><br>
     <a th:href="@{/deleteToner}">Usuń toner</a><br>
-    <a th:href="@{/updateToner}">Aktualizuj toner</a><br>
     <a th:href="@{/Magazine}">Magazyn</a><br>
     <a th:href="@{/showMagazine}">Pokaż magazyn</a><br>
 </div>
-</div>
+
 <div sec:authorize="isAuthenticated()">
     <!-- <a th:href="@{/changepassword}">Zmień hasło--nie działa</a><br>-->
     <a th:href="@{/Raport}">Raport</a><br>
     <a th:href="@{/help}">Pomoc</a><br>
 </div>
-</div>
+
 </body>
 </html>

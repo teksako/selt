@@ -5,6 +5,7 @@ import com.selt.model.Raport;
 import com.selt.model.Temp;
 import com.selt.service.RaportService;
 import com.selt.service.TempService;
+import com.selt.service.UserService;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,57 +25,47 @@ public class RaportController {
 
     private final RaportService raportService;
     private final TempService tempService;
+    private final UserService userService;
 
     @GetMapping({"/Raport"})
-    public String getRaport(Model model){
+    public String getRaport(Model model) {
         model.addAttribute("temp", new Temp());
-//        List<Raport> raport = null;
-//        //List<Raport> raport=raportService.findAll();
-//        if(temp.getRadio()==2) {
-//            raport = raportService.findAll();
-//        }
-//        else if(temp.getRadio()==1){
-//            raport=raportService.findAllByDateBetween();
-//        }
-//        model.addAttribute("raport", raport);
-
-
+        model.addAttribute("username", userService.findUserByUsername().getFullname());
         return "/Raport";
     }
 
     @PostMapping({"/Raport"})
-    public String getDate(@ModelAttribute("temp") Temp temp, Model model){
-        //TimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    public String getDate(@ModelAttribute("temp") Temp temp, Model model) {
+
         List<Raport> raport = null;
-        String mattern = '%'+temp.getTempString()+'%';
-        if(temp.getRadio()==2) {
+        String mattern = '%' + temp.getTempString() + '%';
+        if (temp.getRadio() == 0) {
+            raport = raportService.findAllByPreviousMonth();
+        }
+        if (temp.getRadio() == 2) {
             raport = raportService.findAll();
         }
-        if(temp.getRadio()==1){
-            raport=raportService.findAllByActualMonth();
+        if (temp.getRadio() == 1) {
+            raport = raportService.findAllByActualMonth();
         }
 
-        if(temp.getRadio()==3){
-            //raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart(), formatter),LocalDate.parse(temp.getEnd(),formatter));
-            raport=raportService.findAllByDateBetween(LocalDate.parse(temp.getStart()),LocalDate.parse(temp.getEnd()));
+        if (temp.getRadio() == 3) {
+            raport = raportService.findAllByDateBetween(LocalDate.parse(temp.getStart()), LocalDate.parse(temp.getEnd()));
         }
-        if(temp.getRadio()==4) {
-
+        if (temp.getRadio() == 4) {
             raport = raportService.search(mattern);
         }
-        if(temp.getRadio()==5) {
-
+        if (temp.getRadio() == 5) {
             raport = raportService.search(mattern);
         }
-        if(temp.getRadio()==6) {
-
+        if (temp.getRadio() == 6) {
             raport = raportService.findAllByPrinters_Toner_TonerNameIsLike(mattern);
         }
-        if(temp.getRadio()==7) {
-
+        if (temp.getRadio() == 7) {
             raport = raportService.findAllByPrinters_Department_NameOfDepartmentIsLike(mattern);
         }
         model.addAttribute("raport", raport);
+        getRaport(model);
         return "/Raport";
 
     }
