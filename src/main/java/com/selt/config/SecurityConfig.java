@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.sql.DataSource;
-
+@EnableWebMvc
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -29,13 +31,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource);
 
     }
-
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(
+//                "/webjars/**",
+//                "/img/**",
+//                "/css/**",
+//                "/js/**")
+//                .addResourceLocations(
+//                        "classpath:/META-INF/resources/webjars/",
+//                        "classpath:/static/img/",
+//                        "classpath:/static/css/",
+//                        "classpath:/static/js/");
+//    }
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/css/**", "/static/css/**", "/js/**");
     }
+
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
@@ -44,13 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/index").authenticated()
+                .antMatchers("/changePassword").authenticated()
+                .antMatchers("/resetPassword").hasAuthority("ADMIN")
                 .antMatchers("/showLaptops").authenticated()
                 .antMatchers("/addEmployee").authenticated()
                 .antMatchers("/addLaptop").hasAuthority("ADMIN")
                 .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
                 .antMatchers("/addOfficeLicense").hasAuthority("ADMIN")
                 .antMatchers("/addDepartment").hasAuthority("ADMIN")
-                .antMatchers("/addUser").hasAuthority("ADMIN")
+                .antMatchers("/User").authenticated()
                 .antMatchers("/addLocation").hasAuthority("ADMIN")
                 .antMatchers("/addComputer").hasAuthority("ADMIN")
                 .antMatchers("/showUserHardware").hasAuthority("ADMIN")

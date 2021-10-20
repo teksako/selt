@@ -43,6 +43,9 @@ public class RaportController {
             raport = raportService.findAllByPreviousMonth();
         }
         if (temp.getRadio() == 2) {
+            if(raport==null){
+                model.addAttribute("allert", "Brak danych!");
+            }
             raport = raportService.findAll();
         }
         if (temp.getRadio() == 1) {

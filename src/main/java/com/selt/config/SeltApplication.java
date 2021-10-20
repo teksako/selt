@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -37,10 +38,16 @@ public class SeltApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(SeltApplication.class, args);
+
     }
 
     @Override
     public void run(String... args) throws Exception {
+//        while(LocalTime.now().getMinute()%2==0 && LocalTime.now().getSecond()==1){
+//            System.out.println(LocalTime.now().getMinute());
+
+
+
 //        // userService.deleteUser("ss");
                if (userRepository.findAll().size() == 0) {
                    UserRole userRole = new UserRole();

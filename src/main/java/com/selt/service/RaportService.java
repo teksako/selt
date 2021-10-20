@@ -106,12 +106,5 @@ public class RaportService {
         return raportRepo.findAllByPrinters_Department_NameOfDepartmentIsLike(temp);
     }
 
-    public List<Raport> findAllByPrinters_Toner_TonerNameIsLike(String temp){
-        return raportRepo.findAllByPrinters_Toner_TonerNameIsLike(temp);
-    }
-
-    public List<Raport> findAllByPrinters_Department_NameOfDepartmentIsLike(String temp){
-        return raportRepo.findAllByPrinters_Department_NameOfDepartmentIsLike(temp);
-    }
 }
 

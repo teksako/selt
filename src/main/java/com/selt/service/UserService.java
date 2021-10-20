@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,14 +32,40 @@ public class UserService {
         userRepo.delete(user);
     }
 
-    public void save(User user, String password) {
-        user.setCreateDate(new Date());
-        user.setPassword(passwordEncoder.encode(password));
-        userRepo.save(user);
+    public String save(User user, String password) {
+        if (userRepo.findUserByUsername(user.getUsername()) == null) {
+            user.setCreateDate(new Date());
+            user.setPassword(passwordEncoder.encode(password));
+            userRepo.save(user);
+            return "Utworzyłeś uzytkownika: " + user.getUsername();
+        } else {
+            return "Taki użytkownik istnieje!";
+        }
+
     }
 
     private UserDetails userDetailsService() {
+
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public void changePassword(String password) {
+        Optional<User> actualUser = Optional.ofNullable(userRepo.findUserByUsername(userDetailsService().getUsername()));
+        //Optional<User> user1 = userRepo.findById(userDetailsService(). getId());
+        if (actualUser.isPresent()) {
+            User user = actualUser.get();
+            user.setPassword(passwordEncoder.encode(password));
+            userRepo.save(user);
+        }
+    }
+
+    public void resetPasswordByAdmin(User user, String password) {
+        Optional<User> user1 = userRepo.findById(user.getId());
+        if (user1.isPresent()) {
+            User userToChange = user1.get();
+            userToChange.setPassword(passwordEncoder.encode(password));
+            userRepo.save(userToChange);
+        }
     }
 
     public String actualLoginUser() {
@@ -47,5 +74,9 @@ public class UserService {
 
     public User findUserByUsername() {
         return userRepo.findUserByUsername(actualLoginUser());
+    }
+
+    public List<User> findAll(){
+        return userRepo.findAll();
     }
 }

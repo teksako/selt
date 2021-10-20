@@ -57,6 +57,8 @@ public class HardwareController {
         model.addAttribute("printer", new Printer());
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList=tonerService.findAll();
+        List<Printer> printerList=printerService.findAll();
+        model.addAttribute("printers", printerList);
         model.addAttribute("toners", tonerList);
         model.addAttribute("departments", departmentList);
         return "/addPrinter";
