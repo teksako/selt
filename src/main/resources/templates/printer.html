@@ -62,6 +62,11 @@
 </form>
 
 -------------------------STATUS-------------------------
+<form th:action="@{/printer}" th:object="${temp}" method="post">
+    <td>Szukaj:</td>
+    <br>
+    <input id="search" th:field="*{tempString}" type="text">
+    <input type="submit" value="Szukaj" name="saveButton" class="mySubmitButton">
 <table border="1">
     <thead>
     <tr style="text-align: center; ">
@@ -79,8 +84,8 @@
 
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="key : ${printers}" style="text-align: center; ">
+    <tbody >
+    <tr th:each="key : ${printerList}" style="text-align: center; ">
 
         <td th:text="${key.manufacturer}"></td>
         <td th:text="${key.model}"></td>
@@ -91,8 +96,11 @@
         <td th:text="${key.user}"></td>
         <td th:text="${key.getDepartment().nameOfDepartment}"></td>
         <td th:text="${key.getToner().tonerName}"></td>
+        <td><a th:href="@{/deletePrinter/{id}(id=${key.id})}" class="btn btn-danger">USUN</td>
+        <td><input type="submit" value="Usuń" name="deleteButton" class="btn btn-danger"></td>
     </tr>
     </tbody>
 </table>
+</form>
 </body>
 </html>

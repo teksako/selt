@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface PrinterRepo extends JpaRepository<Printer, Long> {
 
-    public List<Printer> findAllByTonerIs(String toner);
+   List<Printer> findAllByTonerIs(String toner);
+   List<Printer> findAllByModelIsLike(String model);
+
 }

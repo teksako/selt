@@ -163,9 +163,11 @@
     <input type="submit" value="Wyświetl" name="saveButton" class="mySubmitButton">
 </form>
 <p>---------RAPORT----------</p>
-<table border="1">
+<a th:text="${allert}"></a>
+<table border="1" >
+
     <thead>
-    <tr>
+    <tr style="text-align: center; ">
         <div sec:authorize="isAuthenticated()">
         <th>Toner</th>
         <th>Ilość</th>
@@ -181,7 +183,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="key : ${raport}">
+    <tr th:each="key : ${raport}" style="text-align: center; ">
         <div sec:authorize="isAuthenticated()">
             <td th:text="${key.Printers.getToner().getTonerName()}"></td>
             <td th:text="${key.count}"></td>

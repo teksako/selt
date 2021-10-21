@@ -1,18 +1,13 @@
 package com.selt.controler;
 
 import com.selt.model.*;
-import com.selt.repository.WindowsRepo;
 import com.selt.service.*;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -51,25 +46,65 @@ public class HardwareController {
         return "/showUserHardware";
     }
 
-    @GetMapping({"/addPrinter"})
-    public String addPrinterPage(Model model){
+    @GetMapping({"/printer"})
+    public String printerPage(Model model){
+        model.addAttribute("temp", new Temp());
         model.addAttribute("username",  userService.findUserByUsername().getFullname());
         model.addAttribute("printer", new Printer());
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList=tonerService.findAll();
-        List<Printer> printerList=printerService.findAll();
-        model.addAttribute("printers", printerList);
+//        List<Printer> printerList=printerService.findAll();
+//        model.addAttribute("printers", printerList);
         model.addAttribute("toners", tonerList);
         model.addAttribute("departments", departmentList);
-        return "/addPrinter";
+        return "printer";
     }
 
     @PostMapping({"/addPrinter"})
     public String savePrinter(@ModelAttribute("printer") Printer printer, Model model){
-        addPrinterPage(model);
+        printerPage(model);
         printerService.save(printer);
-        return "/addPrinter";
+        return "/printer";
     }
+
+//    @PostMapping({"/deletePrinter"})
+//    public String deletePrinter(Printer printer, Model model){
+//        printerPage(model);
+//        printerService.delete(printer);
+//        model.addAttribute("info", "Usunąłeś drukarkę "+ printer.getModel());
+//        return "/printer";
+//    }
+
+    //      INNA METODA
+    @GetMapping("/deletePrinter/{id}")
+    public String deleteUser(@PathVariable (value = "id") long id, Model model) {
+        printerService.deletePrinter(id);
+        printerPage(model);
+        return "/printer";
+    }
+
+    @PostMapping({"/printer"})
+    public String getDate(@ModelAttribute("temp") Temp temp, Model model) {
+
+        List<Printer> printerList= null;
+        String mattern = '%' + temp.getTempString() + '%';
+
+        if(temp.getTempString()==null) {
+            if (printerList == null) {
+                model.addAttribute("allert", "Brak danych!");
+            }
+            printerList = printerService.findAll();
+
+        }
+        else{
+            printerList = printerService.findAllByModelIsLike(mattern);
+        }
+        model.addAttribute("printerList", printerList);
+        printerPage(model);
+        return "/printer";
+
+    }
+
 
     @ResponseBody
     @GetMapping({"/showPrinters"})
