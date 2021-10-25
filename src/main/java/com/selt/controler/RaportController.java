@@ -3,6 +3,7 @@ package com.selt.controler;
 import com.selt.model.Magazine;
 import com.selt.model.Raport;
 import com.selt.model.Temp;
+import com.selt.repository.RaportRepo;
 import com.selt.service.RaportService;
 import com.selt.service.TempService;
 import com.selt.service.UserService;
@@ -24,6 +25,7 @@ import java.util.List;
 public class RaportController {
 
     private final RaportService raportService;
+    private final RaportRepo raportRepo;
     private final TempService tempService;
     private final UserService userService;
 
@@ -43,9 +45,6 @@ public class RaportController {
             raport = raportService.findAllByPreviousMonth();
         }
         if (temp.getRadio() == 2) {
-            if(raport==null){
-                model.addAttribute("allert", "Brak danych!");
-            }
             raport = raportService.findAll();
         }
         if (temp.getRadio() == 1) {
