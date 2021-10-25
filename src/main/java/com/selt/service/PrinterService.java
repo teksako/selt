@@ -39,6 +39,11 @@ public class PrinterService {
         printerRepo.delete(printer1.get());
     }
 
+    public void editPrinter(long id) {
+        Optional<Printer> printer1 = printerRepo.findById(id);
+        printerRepo.save(printer1.get());
+    }
+
     public List<Printer> findAllByModelIsLike(String model){
         return printerRepo.findAllByModelIsLike(model);
     }
@@ -46,4 +51,8 @@ public class PrinterService {
     public List<Printer> findAllByToner(String toner){
         return printerRepo.findAllByTonerIs(toner);
     }
+
+//    public Printer findById(Long id){
+//        return printerRepo.findById(id);
+//    }
 }

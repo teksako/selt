@@ -1,13 +1,16 @@
 package com.selt.controler;
 
 import com.selt.model.*;
+import com.selt.repository.PrinterRepo;
 import com.selt.service.*;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -27,6 +30,7 @@ public class HardwareController {
     private final PhoneNumberService phoneNumberService;
     private final PrinterService printerService;
     private final UserService userService;
+    private final PrinterRepo printerRepo;
 
 
     @ResponseBody
@@ -46,25 +50,45 @@ public class HardwareController {
         return "/showUserHardware";
     }
 
-    @GetMapping({"/printer"})
-    public String printerPage(Model model){
-        model.addAttribute("temp", new Temp());
-        model.addAttribute("username",  userService.findUserByUsername().getFullname());
-        model.addAttribute("printer", new Printer());
-        List<Department> departmentList = departmentService.findAll();
-        List<Toner> tonerList=tonerService.findAll();
-//        List<Printer> printerList=printerService.findAll();
-//        model.addAttribute("printers", printerList);
-        model.addAttribute("toners", tonerList);
-        model.addAttribute("departments", departmentList);
-        return "printer";
+
+    //-------------------------PRINTERS----------------------------------
+    @GetMapping({"/list-printers"})
+    public ModelAndView getAllPrinters() {
+        ModelAndView model = new ModelAndView("list-printers");
+        model.addObject("temp", new Temp());
+        model.addObject("username", userService.findUserByUsername().getFullname());
+        model.addObject("printerList", printerService.findAll());
+        return model;
+    }
+//    @GetMapping({"/list-printers"})
+//    public ModelAndView getAllPrinters(Model model){
+//        model.addAttribute("temp", new Temp());
+//        model.addAttribute("username",  userService.findUserByUsername().getFullname());
+//        model.addAttribute("printer", new Printer());
+//        List<Department> departmentList = departmentService.findAll();
+//        List<Toner> tonerList=tonerService.findAll();
+////        List<Printer> printerList=printerService.findAll();
+////        model.addAttribute("printers", printerList);
+//        model.addAttribute("toners", tonerList);
+//        model.addAttribute("departments", departmentList);
+//        return "list-printers";
+//    }
+
+
+    @GetMapping("/addPrinterForm")
+    public ModelAndView addPrinterForm() {
+        ModelAndView model = new ModelAndView("add-printers-form");
+        Printer printer=new Printer();
+        model.addObject("printer", printer);
+        return getModelAndView(model);
+
     }
 
-    @PostMapping({"/addPrinter"})
-    public String savePrinter(@ModelAttribute("printer") Printer printer, Model model){
-        printerPage(model);
+    @PostMapping({"/savePrinter"})
+    public String savePrinter(@ModelAttribute Printer printer) {
         printerService.save(printer);
-        return "/printer";
+
+        return "redirect:/list-printers";
     }
 
 //    @PostMapping({"/deletePrinter"})
@@ -76,48 +100,62 @@ public class HardwareController {
 //    }
 
     //      INNA METODA
-    @GetMapping("/deletePrinter/{id}")
-    public String deleteUser(@PathVariable (value = "id") long id, Model model) {
+    @GetMapping({"/deletePrinter/{id}"})
+    public String deletePrinter(@PathVariable(value = "id") long id) {
         printerService.deletePrinter(id);
-        printerPage(model);
-        return "/printer";
+        getAllPrinters();
+        return "redirect:/list-printers";
     }
 
-    @PostMapping({"/printer"})
-    public String getDate(@ModelAttribute("temp") Temp temp, Model model) {
 
-        List<Printer> printerList= null;
+
+    @PostMapping({"/list-printers"})
+    public void searchPrinters(@ModelAttribute("temp") Temp temp, Model model) {
+
+        List<Printer> printerList = null;
         String mattern = '%' + temp.getTempString() + '%';
 
-        if(temp.getTempString()==null) {
+        if (temp.getTempString() == null) {
             if (printerList == null) {
                 model.addAttribute("allert", "Brak danych!");
             }
             printerList = printerService.findAll();
 
-        }
-        else{
+        } else {
             printerList = printerService.findAllByModelIsLike(mattern);
         }
         model.addAttribute("printerList", printerList);
-        printerPage(model);
-        return "/printer";
+        getAllPrinters();
 
     }
 
+    @GetMapping({"/showUpdateForm"})
+    public ModelAndView showUpdateForm(@RequestParam Long printerId) {
+        ModelAndView model = new ModelAndView("add-printers-form");
+        Printer printer = printerRepo.findById(printerId).get();
+        //Printer printer = printerService.findById(printerId).get();
+        model.addObject("printer", printer);
+        return getModelAndView(model);
+    }
 
-    @ResponseBody
-    @GetMapping({"/showPrinters"})
-    public List<Printer>showPrinters(){
-        return printerService.findAll();
+    @NotNull
+    private ModelAndView getModelAndView(ModelAndView model) {
+        model.addObject("username", userService.findUserByUsername().getFullname());
+        List<Department> departmentList = departmentService.findAll();
+        List<Toner> tonerList = tonerService.findAll();
+        model.addObject("toners", tonerList);
+        model.addObject("departments", departmentList);
+
+        return model;
     }
 
 
+//---------------------------END PRINTERS--------------------------------------------------
 
 
     @GetMapping({"/addPhone"})
     public String addPhonePage(Model model) {
-        List<PhoneNumber>phoneNumbers=phoneNumberService.findAll();
+        List<PhoneNumber> phoneNumbers = phoneNumberService.findAll();
         model.addAttribute("phonenumber", phoneNumbers);
         model.addAttribute("phone", new MobilePhone());
         return "/addPhone";
