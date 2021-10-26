@@ -28,7 +28,6 @@ public class DepartmentController {
         ModelAndView model = new ModelAndView("list-departments");
         model.addObject("temp", new Temp());
         model.addObject("username", userService.findUserByUsername().getFullname());
-
         model.addObject("departmentList", departmentService.findAll());
         return model;
     }

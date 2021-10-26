@@ -1,5 +1,6 @@
 package com.selt.service;
 
+import com.selt.model.Printer;
 import com.selt.model.User;
 import com.selt.repository.UserRepo;
 import lombok.Data;
@@ -33,11 +34,11 @@ public class UserService {
     }
 
     public String save(User user, String password) {
-        if (userRepo.findUserByUsername(user.getUsername()) == null) {
+        if (userRepo.findUserByLogin(user.getLogin()) == null) {
             user.setCreateDate(new Date());
             user.setPassword(passwordEncoder.encode(password));
             userRepo.save(user);
-            return "Utworzyłeś uzytkownika: " + user.getUsername();
+            return "Utworzyłeś uzytkownika: " + user.getLogin();
         } else {
             return "Taki użytkownik istnieje!";
         }
@@ -50,7 +51,7 @@ public class UserService {
     }
 
     public void changePassword(String password) {
-        Optional<User> actualUser = Optional.ofNullable(userRepo.findUserByUsername(userDetailsService().getUsername()));
+        Optional<User> actualUser = Optional.ofNullable(userRepo.findUserByLogin(userDetailsService().getUsername()));
         //Optional<User> user1 = userRepo.findById(userDetailsService(). getId());
         if (actualUser.isPresent()) {
             User user = actualUser.get();
@@ -73,7 +74,12 @@ public class UserService {
     }
 
     public User findUserByUsername() {
-        return userRepo.findUserByUsername(actualLoginUser());
+        return userRepo.findUserByLogin(actualLoginUser());
+    }
+
+    public void deleteUser(long id) {
+        Optional<User> user = userRepo.findById(id);
+        userRepo.delete(user.get());
     }
 
     public List<User> findAll(){

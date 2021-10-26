@@ -47,42 +47,35 @@ public class SeltApplication implements CommandLineRunner {
 //            System.out.println(LocalTime.now().getMinute());
 
 
-
 //        // userService.deleteUser("ss");
-               if (userRepository.findAll().size() == 0) {
-                   UserRole userRole = new UserRole();
-                   userRole.setRole(Role.ADMIN);
-                   userRole = roleRepository.save(userRole);
-                   UserRole userRole2 = new UserRole();
-                   userRole2.setRole(Role.USER);
+        if (userRepository.findAll().size() == 0) {
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.ADMIN);
+            userRole = roleRepository.save(userRole);
+            UserRole userRole2 = new UserRole();
+            userRole2.setRole(Role.USER);
 
-                   roleRepository.save(userRole2);
+            roleRepository.save(userRole2);
 
+            User user = new User();
+            user.setLogin("user");
+            user.setPassword(encoder.encode("omg11thc"));
+            user.setCreateDate(new Date());
+            user.setRoles(Arrays.asList(userRole2));
+            //user.setRole(userRole2);
+            user.setEnabled(true);
+            user.setFullname("User");
+            userRepository.save(user);
 
-			User user = new User();
-			user.setUsername("user");
-			user.setPassword(encoder.encode("omg11thc"));
-			user.setCreateDate(new Date());
-			user.setRoles(Arrays.asList(userRole2));
-			//user.setRole(userRole2);
-			user.setEnabled(true);
-			user.setFullname("User");
-			userRepository.save(user);
-
-			User admin = new User();
-			admin.setUsername("admin");
-			admin.setPassword(encoder.encode("omg11thc"));
-			admin.setCreateDate(new Date());
-			admin.setRoles(Arrays.asList(userRole));
+            User admin = new User();
+            admin.setLogin("admin");
+            admin.setPassword(encoder.encode("omg11thc"));
+            admin.setCreateDate(new Date());
+            admin.setRoles(Arrays.asList(userRole));
             admin.setFullname("Admin");
-			//admin.setRole(userRole);
-			admin.setEnabled(true);
-			userRepository.save(admin);
-
-
-		}
-
-
+            //admin.setRole(userRole);
+            admin.setEnabled(true);
+            userRepository.save(admin);
         }
-
     }
+}

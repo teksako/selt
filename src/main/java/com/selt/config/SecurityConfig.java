@@ -22,12 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.jdbcAuthentication()
-                .usersByUsernameQuery("SELECT u.username, u.password,1 FROM user u WHERE u.username=?")
-                .authoritiesByUsernameQuery("SELECT u.username, r.name, 1 " +
+                .usersByUsernameQuery("SELECT u.login, u.password,1 FROM user u WHERE u.login=?")
+                .authoritiesByUsernameQuery("SELECT u.login, r.name, 1 " +
                         "FROM user u " +
                         "INNER JOIN user_role ur ON ur.user_id = u.user_id " +
                         "INNER JOIN role r ON r.role_id = ur.role_id " +
-                        "WHERE u.username=?")
+                        "WHERE u.login=?")
                 .dataSource(dataSource);
 
     }
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
                 .antMatchers("/addOfficeLicense").hasAuthority("ADMIN")
                 .antMatchers("/addDepartment").hasAuthority("ADMIN")
-                .antMatchers("/User").authenticated()
+                .antMatchers("/list-users").authenticated()
                 .antMatchers("/addLocation").hasAuthority("ADMIN")
                 .antMatchers("/addComputer").hasAuthority("ADMIN")
                 .antMatchers("/showUserHardware").hasAuthority("ADMIN")
