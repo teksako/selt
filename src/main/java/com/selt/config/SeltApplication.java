@@ -5,6 +5,7 @@ import com.selt.model.User;
 import com.selt.model.UserRole;
 import com.selt.repository.RoleRepo;
 import com.selt.repository.UserRepo;
+import com.selt.service.PrinterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalTime;
@@ -24,6 +27,7 @@ import java.util.Date;
 @EntityScan("com.selt.model")
 @EnableJpaRepositories("com.selt.repository")
 @Import(SecurityConfig.class)
+@EnableScheduling
 public class SeltApplication implements CommandLineRunner {
 
     @Autowired
@@ -32,14 +36,23 @@ public class SeltApplication implements CommandLineRunner {
     private UserRepo userRepository;
     @Autowired
     private PasswordEncoder encoder;
+    private PrinterService printerService;
 //	private WindowsRepo windowsRepo;
 //	private LaptopRepo laptopRepo;
 
 
     public static void main(String[] args) {
         SpringApplication.run(SeltApplication.class, args);
-
     }
+
+
+        // execute every 10 seconds
+        @Scheduled(cron = "0 0 9 ? * MON")
+        public void writeSomething1() {
+            printerService.getCounter();
+        }
+
+
 
     @Override
     public void run(String... args) throws Exception {

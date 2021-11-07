@@ -21,16 +21,18 @@
 <div sec:authorize="hasAuthority('ADMIN')">
     <div class="container">
 
-        <h3>Dodaj użytkownika</a></h3>
+        <h3>Zmień użytkownika</a></h3>
         <hr/>
-        <form th:action="@{/saveUser}" th:object="${user}" method="post">
+        <form th:action="@{/saveUpdateUser}" th:object="${user}" method="post">
             <p class="error" th:text="${commonError}"></p>
+
 
             <input type="text" th:field="*{fullname}" class="form-control col-4 mb-4" placeholder="Imię i nazwisko">
             <input id="username" type="text" th:field="*{login}" class="form-control col-4 mb-4" placeholder="Login">
             <input id="password" type="password" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Hasło">
-            <label>Aktywny</label>
-            <input id="enabled" type="checkbox" th:field="*{enabled}" placeholder="Aktywny">
+
+            <label for="enabled">Aktywny</label>
+            <input id="enabled" type="checkbox" th:field="*{enabled}">
 
             <select id="roles" th:field="*{roles}" class="form-control col-4 mb-4">
                 <option value="">Rodzaj konta</option>
@@ -70,19 +72,20 @@
 
         </form>
     </div>
+
     <div sec:authorize="isAuthenticated()">
     <form th:action="@{/saveUser}" th:object="${user}" method="post">
         <p class="error" th:text="${commonError}"></p>
     ----------------------ZMIEŃ SWOJE HASŁO----------------------
         <br>
-        <td>Nowe hasło: </td>
-        <input type="password" th:field="*{password}">
+        <input id="password" type="password" th:field="*{password}" class="form-control col-4 mb-4"
+                   placeholder="Hasło">
 
-        <input type="submit" value="Zapisz" name="saveButton" class="mySubmitButton">
+        <input type="submit" value="Zapisz" name="saveButton" class="btn btn-primary">
         <input type="hidden" th:field="*{id}"/>
     </form>
-    </div>
-        -->
+    </div>-->
+
 
 
         <hr/>

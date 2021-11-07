@@ -91,18 +91,18 @@ public class SNMP4J {
         }
     }
 
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-
-        String ip = "192.168.13.90";
-        String community = "public";
-        String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
-
-
-        SNMP4J.snmpGet(ip, community, oidval);
-
-    }
+//    /**
+//     *
+//     * @param args
+//     */
+//    public static void main(String[] args) {
+//
+//        String ip = "192.168.13.90";
+//        String community = "public";
+//        String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
+//
+//
+//        SNMP4J.snmpGet(ip, community, oidval);
+//
+//    }
 }

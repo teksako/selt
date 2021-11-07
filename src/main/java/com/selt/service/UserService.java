@@ -5,6 +5,7 @@ import com.selt.model.User;
 import com.selt.repository.UserRepo;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,16 +34,23 @@ public class UserService {
         userRepo.delete(user);
     }
 
-    public String save(User user, String password) {
-        if (userRepo.findUserByLogin(user.getLogin()) == null) {
+    public void save(@NotNull User user, String password) {
+       // if (userRepo.findUserByLogin(user.getLogin()) == null) {
             user.setCreateDate(new Date());
             user.setPassword(passwordEncoder.encode(password));
             userRepo.save(user);
-            return "Utworzyłeś uzytkownika: " + user.getLogin();
-        } else {
-            return "Taki użytkownik istnieje!";
-        }
+//            return "Utworzyłeś uzytkownika: " + user.getLogin();
+//        } else {
+//            return "Taki użytkownik istnieje!";
+//        }
+    }
 
+    public void saveUpdate(@NotNull User user, String password){
+        Date date;
+        date = user.getCreateDate();
+        user.setCreateDate(date);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepo.save(user);
     }
 
     private UserDetails userDetailsService() {
@@ -84,5 +92,9 @@ public class UserService {
 
     public List<User> findAll(){
         return userRepo.findAll();
+    }
+
+    public List<User> findAllByFullNameIsLike(String fullname){
+        return userRepo.findAllByFullnameIsLike(fullname);
     }
 }

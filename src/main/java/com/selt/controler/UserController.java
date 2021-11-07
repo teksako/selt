@@ -52,9 +52,15 @@ public class UserController {
     @PostMapping({"/saveUser"})
     public String saveUser(User user, String password, Model model) {
         model.addAttribute("password", password);
+        userService.save(user, password);
+        getAllUsers();
+        return "redirect:/list-users";
+    }
 
-        //userService.save(user,password);
-        model.addAttribute("info", userService.save(user, password));
+    @PostMapping({"/saveUpdateUser"})
+    public String saveUpdateUser(User user, String password, Model model) {
+        model.addAttribute("password", password);
+        userService.saveUpdate(user, password);
         getAllUsers();
         return "redirect:/list-users";
     }
@@ -70,7 +76,7 @@ public class UserController {
 
     @GetMapping({"/showUpdateUserForm"})
     public ModelAndView showUpdateUserForm(@RequestParam Long userId) {
-        ModelAndView model = new ModelAndView("add-user-form");
+        ModelAndView model = new ModelAndView("update-user-form");
         User user = userRepo.findById(userId).get();
         //Printer printer = printerService.findById(printerId).get();
         model.addObject("user", user);
