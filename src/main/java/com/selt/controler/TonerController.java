@@ -1,13 +1,16 @@
 package com.selt.controler;
 
+import com.selt.model.Location;
 import com.selt.model.Toner;
+import com.selt.repository.TonerRepo;
 import com.selt.service.TonerService;
+import com.selt.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -15,7 +18,55 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TonerController {
     private final TonerService tonerService;
+    private final UserService userService;
+    private final TonerRepo tonerRepo;
+    @GetMapping({"/list-toners"})
+    public ModelAndView getAllToner() {
+        ModelAndView model = new ModelAndView("/list-toners");
+        model.addObject("username", userService.findUserByUsername().getFullname());
+        model.addObject("tonerList", tonerService.findAll());
+        return model;
+    }
 
+
+
+
+    @PostMapping({"/saveToner"})
+    public String saveToner(@ModelAttribute Toner toner) {
+        tonerService.save(toner);
+        return "redirect:list-toners";
+    }
+
+    @GetMapping({"/addTonerForm"})
+    public ModelAndView addTonerForm() {
+        ModelAndView model = new ModelAndView("add-toner-form");
+        Toner toner = new Toner();
+        model.addObject("toner", toner);
+        return getModelAndView(model);
+    }
+
+    @GetMapping({"/showUpdateTonerForm"})
+    public ModelAndView showUpdateTonerForm(@RequestParam Long tonerId) {
+        ModelAndView model = new ModelAndView("add-toner-form");
+        Toner toner = tonerRepo.findById(tonerId).get();
+        model.addObject("toner", toner);
+        return getModelAndView(model);
+    }
+
+    @NotNull
+    private ModelAndView getModelAndView(ModelAndView model) {
+        model.addObject("username", userService.findUserByUsername().getFullname());
+//        List<Location> locationList = locationService.findAll();
+//        model.addObject("locations", locationList);
+        return model;
+    }
+
+    @GetMapping({"/deleteToner/{id}"})
+    public String deleteLocation(@PathVariable(value = "id") long id) {
+        tonerService.deleteToner(id);
+        getAllToner();
+        return "redirect:/list-toners";
+    }
     @GetMapping({"/Toner"})
     public String tonerPage(Model model) {
         model.addAttribute("toner", new Toner());
@@ -24,12 +75,12 @@ public class TonerController {
         return "/Toner";
     }
 
-    @PostMapping({"/addToner"})
-    public String saveToner(@ModelAttribute("toner") Toner toner) {
-        tonerService.save(toner);
-
-        return "/Toner";
-    }
+//    @PostMapping({"/addToner"})
+//    public String saveToner(@ModelAttribute("toner") Toner toner) {
+//        tonerService.save(toner);
+//
+//        return "/Toner";
+//    }
 
 
 //    @GetMapping({"/deleteToner"})

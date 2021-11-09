@@ -1,5 +1,6 @@
 package com.selt.service;
 
+import com.selt.model.Location;
 import com.selt.model.Toner;
 import com.selt.model.Magazine;
 import com.selt.repository.TonerRepo;
@@ -27,6 +28,10 @@ public class TonerService {
     public void delete(Toner toner) {
         tonerRepo.delete(toner);
 
+    }
+    public void deleteToner(long id) {
+        Optional<Toner> toner = tonerRepo.findById(id);
+        tonerRepo.delete(toner.get());
     }
 
     public void update(Toner toner) {
