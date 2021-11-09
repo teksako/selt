@@ -6,6 +6,7 @@ import com.selt.model.UserRole;
 import com.selt.repository.RoleRepo;
 import com.selt.repository.UserRepo;
 import com.selt.service.PrinterService;
+import com.selt.service.SNMP4J;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +19,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -26,8 +26,8 @@ import java.util.Date;
 @ComponentScan("com.selt")
 @EntityScan("com.selt.model")
 @EnableJpaRepositories("com.selt.repository")
-@Import(SecurityConfig.class)
 @EnableScheduling
+@Import(SecurityConfig.class)
 public class SeltApplication implements CommandLineRunner {
 
     @Autowired
@@ -36,6 +36,7 @@ public class SeltApplication implements CommandLineRunner {
     private UserRepo userRepository;
     @Autowired
     private PasswordEncoder encoder;
+    private SNMP4J snmp4J;
     private PrinterService printerService;
 //	private WindowsRepo windowsRepo;
 //	private LaptopRepo laptopRepo;
@@ -45,21 +46,16 @@ public class SeltApplication implements CommandLineRunner {
         SpringApplication.run(SeltApplication.class, args);
     }
 
-
-        // execute every 10 seconds
-        @Scheduled(cron = "0 0 9 ? * MON")
-        public void writeSomething1() {
-            printerService.getCounter();
-        }
-
-
+    //@Scheduled(cron = "0 13 21 ? * MON")
+//
+//    public void writeSomething1() {
+//        //printerService.getCounter();
+//       //System.out.println("test");
+//        printerService.test();
+//    }
 
     @Override
     public void run(String... args) throws Exception {
-//        while(LocalTime.now().getMinute()%2==0 && LocalTime.now().getSecond()==1){
-//            System.out.println(LocalTime.now().getMinute());
-
-
 //        // userService.deleteUser("ss");
         if (userRepository.findAll().size() == 0) {
             UserRole userRole = new UserRole();
@@ -69,6 +65,7 @@ public class SeltApplication implements CommandLineRunner {
             userRole2.setRole(Role.USER);
 
             roleRepository.save(userRole2);
+
 
             User user = new User();
             user.setLogin("user");
@@ -89,6 +86,11 @@ public class SeltApplication implements CommandLineRunner {
             //admin.setRole(userRole);
             admin.setEnabled(true);
             userRepository.save(admin);
+
+
         }
+
+
     }
+
 }
