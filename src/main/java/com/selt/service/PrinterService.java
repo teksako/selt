@@ -18,6 +18,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @EnableScheduling
+@Transactional
 public class PrinterService {
 
 
@@ -32,36 +33,40 @@ public class PrinterService {
         return printerRepo.findAll();
     }
 
-    @Scheduled(fixedDelay = 10000)
+    //@Scheduled(fixedDelay = 10000)
 
-    public List<String> getIP(){
+    public List<String> getIP() {
         List<Printer> printerList = printerRepo.findAll();
-        List<String>IPAdress = new ArrayList<>();
-        String IP;
-        for (Printer printer : printerList){
-           // if(printer.getModel()=="C454" || printer.getModel()=="C284" ) {
-            IP=printer.getIPAdress();
-            //System.out.println(IP);
-                IPAdress.add(IP);
-            //}
+        List<String> IPAdress = new ArrayList<>();
+
+        //Printer printer=new Printer();
+        for (Printer printer : printerList) {
+            String model=printer.getManufacturer();
+            if (model.equals("Konica Monilta") && !printer.getIPAdress().equals("-")) {
+                //System.out.println(IP);
+                IPAdress.add(printer.getIPAdress());
+            }
             //System.out.println(printer.toString());
         }
         return IPAdress;
     }
-    //@Scheduled(cron = "0 57 21 ? * MON")
+
+    //@Scheduled(cron = "0 39 14 ? * TUE")
     @Scheduled(fixedDelay = 10000)
-    public void getCounter(){
+    public void getCounter() {
         String community = "public";
         String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
-        String ip="192.168.13.100";
+        //String ip="192.168.13.100";
+        for (String ip : getIP()) {
+            System.out.println(SNMP4J.snmpGet(ip, community, oidval));
+        }
 
-            //System.out.println(SNMP4J.snmpGet(ip,community,oidval));
-            System.out.println(getIP());
+        //System.out.println(getIP());
 
 
     }
 
-    public void test(){
+    public void test() {
         System.out.println("test2");
     }
 
