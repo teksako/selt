@@ -66,5 +66,13 @@ public class Printer {
 
     private List<Counter> counters;
 
+    @OneToMany
+    @JoinTable(
+            name="PRINTER_OID",
+            joinColumns = {@JoinColumn(name="PRINTER_ID")},
+            inverseJoinColumns = {@JoinColumn(name="OID_ID")}
+    )
+
+    private List<OID> oid;
 
 }

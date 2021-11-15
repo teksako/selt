@@ -7,6 +7,21 @@
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script>
+    function myFunction() {
+  // Get the checkbox
+  var checkBox = document.getElementById("myCheck");
+  // Get the output text
+  var text = document.getElementById("text");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}
+</script>
 <body>
 <header>
     <nav class="navbar navbar-light bg-primary">
@@ -20,13 +35,11 @@
     </nav>
 </header>
 <a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
-
-
-
+<div class="container">
 <form th:action="@{/list-printers}" th:object="${temp}" method="post">
 
 
-    <div class="container">
+
 
         <h3>Lista drukarek</h3>
 
@@ -75,7 +88,12 @@
             </tr>
             </tbody>
         </table>
-    </div>
+
 </form>
+<!--Dodaj liczniki: <input type="checkbox" id="myCheck" onclick="myFunction()">
+    <form th:action="@{/saveOid}" th:object="${oid}" method="post" style="display:none">
+       <input th:field="*{oidName}" type="text" class="form-control col-4 mb-4" placeholder="Nazwa">
+        <input th:field="*{oid}" type="text" class="form-control col-4 mb-4" placeholder="Oid">
+    </form> --> </div>
 </body>
 </html>

@@ -1,7 +1,9 @@
 package com.selt.service;
 
 import com.selt.config.SNMP4Jcopy;
+import com.selt.model.OID;
 import com.selt.model.Printer;
+import com.selt.repository.OIDRepo;
 import com.selt.repository.PrinterRepo;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class PrinterService {
 
 
     private final PrinterRepo printerRepo;
+    private final OIDRepo oidRepo;
 
     public Long getTonerId(Long printerId) {
 
@@ -52,7 +55,7 @@ public class PrinterService {
     }
 
     //@Scheduled(cron = "0 39 14 ? * TUE")
-    @Scheduled(fixedDelay = 1000000)
+    //@Scheduled(fixedDelay = 1000000)
     public void getCounter() {
         String community = "public";
         String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
@@ -76,18 +79,18 @@ public class PrinterService {
         }
     }
 
-    public String getActualTonerLevel(long id){
+    public String getActualTonerLevel(long id, String oidName){
         Optional<Printer> printer = printerRepo.findById(id);
         String community = "public";
-        String oidBlack =".1.3.6.1.2.1.43.11.1.1.9.1.4";
-        String oidCyan =".1.3.6.1.2.1.43.11.1.1.9.1.3";
-        String oidMagenta=".1.3.6.1.2.1.43.11.1.1.9.1.2";
-        String oidYellow=".1.3.6.1.2.1.43.11.1.1.9.1.1";
+//        String oidBlack =".1.3.6.1.2.1.43.11.1.1.9.1.4";
+//        String oidCyan =".1.3.6.1.2.1.43.11.1.1.9.1.3";
+//        String oidMagenta=".1.3.6.1.2.1.43.11.1.1.9.1.2";
+//        String oidYellow=".1.3.6.1.2.1.43.11.1.1.9.1.1";
         if(printer.get().getIPAdress().equals("-")){
             return "Drukarka nie podłączona do sieci!";
         }
         else {
-            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidBlack);
+            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidRepo.findAllByOidName("oidName")) + "%";
         }
     }
 

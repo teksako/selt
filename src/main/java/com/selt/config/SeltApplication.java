@@ -1,8 +1,10 @@
 package com.selt.config;
 
+import com.selt.model.OID;
 import com.selt.model.Role;
 import com.selt.model.User;
 import com.selt.model.UserRole;
+import com.selt.repository.OIDRepo;
 import com.selt.repository.RoleRepo;
 import com.selt.repository.UserRepo;
 import com.selt.service.PrinterService;
@@ -36,6 +38,8 @@ public class SeltApplication implements CommandLineRunner {
     private UserRepo userRepository;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private OIDRepo oidRepo;
     private SNMP4J snmp4J;
     private PrinterService printerService;
 //	private WindowsRepo windowsRepo;
@@ -86,6 +90,28 @@ public class SeltApplication implements CommandLineRunner {
             //admin.setRole(userRole);
             admin.setEnabled(true);
             userRepository.save(admin);
+        }
+
+        if(oidRepo.findAll().size()==0){
+            OID oid = new OID();
+            oid.setOidName("KMBlackTonerLevel");
+            oid.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.4");
+            oidRepo.save(oid);
+
+            OID oid1 = new OID();
+            oid1.setOidName("KMCyanTonerLevel");
+            oid1.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.3");
+            oidRepo.save(oid1);
+
+            OID oid2 = new OID();
+            oid2.setOidName("KMMagentaTonerLevel");
+            oid2.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.2");
+            oidRepo.save(oid2);
+
+            OID oid3 = new OID();
+            oid3.setOidName("KMYellowTonerLevel");
+            oid3.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.1");
+            oidRepo.save(oid3);
 
 
         }
