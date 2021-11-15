@@ -52,7 +52,7 @@ public class PrinterService {
     }
 
     //@Scheduled(cron = "0 39 14 ? * TUE")
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 1000000)
     public void getCounter() {
         String community = "public";
         String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
@@ -79,10 +79,10 @@ public class PrinterService {
     public String getActualTonerLevel(long id){
         Optional<Printer> printer = printerRepo.findById(id);
         String community = "public";
-        String oidBlack =".1.3.6.1.2.1.43.12.1.1.4.1.4";
-        String oidCyan =".1.3.6.1.2.1.43.12.1.1.4.1.1";
-        String oidMagenta=".1.3.6.1.2.1.43.12.1.1.4.1.2";
-        String oidYellow=".1.3.6.1.2.1.43.12.1.1.4.1.3";
+        String oidBlack =".1.3.6.1.2.1.43.11.1.1.9.1.4";
+        String oidCyan =".1.3.6.1.2.1.43.11.1.1.9.1.3";
+        String oidMagenta=".1.3.6.1.2.1.43.11.1.1.9.1.2";
+        String oidYellow=".1.3.6.1.2.1.43.11.1.1.9.1.1";
         if(printer.get().getIPAdress().equals("-")){
             return "Drukarka nie podłączona do sieci!";
         }
