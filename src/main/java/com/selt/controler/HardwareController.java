@@ -31,6 +31,7 @@ public class HardwareController {
     private final PrinterService printerService;
     private final UserService userService;
     private final PrinterRepo printerRepo;
+    private final SNMP4J snmp4J;
 
 
     @ResponseBody
@@ -74,6 +75,14 @@ public class HardwareController {
 //        return "list-printers";
 //    }
 
+    @GetMapping({"/showInfoForm"})
+    public ModelAndView showInfoForm(@RequestParam long id){
+        ModelAndView model = new ModelAndView("info-printer-form");
+        model.addObject("username", userService.findUserByUsername().getFullname());
+        model.addObject("counter", printerService.getActualCounter(id));
+        model.addObject("tonerBlack", printerService.getActualTonerLevel(id));
+        return model;
+    }
 
     @GetMapping("/addPrinterForm")
     public ModelAndView addPrinterForm() {

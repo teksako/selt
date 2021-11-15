@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SELT</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<body>
+<header>
+    <nav class="navbar navbar-light bg-primary">
+        <div class="av navbar-nav navbar-right">
+
+            <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
+                                                                      class="navbar-brand"/></strong></form>
+            <input type="button" value="Powrót" name="backButton"
+            onClick="javascript:window.location.href='/index'" class="navbar-brand">
+        </div>
+    </nav>
+</header>
+
+<div class="progress">
+    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
+<hr/>
+<a class="navbar-brand" th:text="${'Aktualny przebieg: ' +counter}"></a>
+<hr/>
+<a class="navbar-brand" th:text="${'Poziom czarnego: ' +tonerBlack}"></a>
+<hr/>
+<a th:href="@{/list-printers}">Back to list</a>
+</body>
+</html>

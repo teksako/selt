@@ -42,7 +42,7 @@ public class PrinterService {
         //Printer printer=new Printer();
         for (Printer printer : printerList) {
             String model=printer.getManufacturer();
-            if (model.equals("Konica Monilta") && !printer.getIPAdress().equals("-")) {
+            if (model.equals("Konica Minolta") && !printer.getIPAdress().equals("-")) {
                 //System.out.println(IP);
                 IPAdress.add(printer.getIPAdress());
             }
@@ -62,9 +62,35 @@ public class PrinterService {
         }
 
         //System.out.println(getIP());
-
-
     }
+
+    public String getActualCounter(long id){
+        Optional<Printer> printer = printerRepo.findById(id);
+        String community = "public";
+        String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
+        if(printer.get().getIPAdress().equals("-")){
+            return "Drukarka nie podłączona do sieci!";
+        }
+        else {
+            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidval);
+        }
+    }
+
+    public String getActualTonerLevel(long id){
+        Optional<Printer> printer = printerRepo.findById(id);
+        String community = "public";
+        String oidBlack =".1.3.6.1.2.1.43.12.1.1.4.1.4";
+        String oidCyan =".1.3.6.1.2.1.43.12.1.1.4.1.1";
+        String oidMagenta=".1.3.6.1.2.1.43.12.1.1.4.1.2";
+        String oidYellow=".1.3.6.1.2.1.43.12.1.1.4.1.3";
+        if(printer.get().getIPAdress().equals("-")){
+            return "Drukarka nie podłączona do sieci!";
+        }
+        else {
+            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidBlack);
+        }
+    }
+
 
     public void test() {
         System.out.println("test2");

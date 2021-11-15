@@ -65,11 +65,13 @@
                 <td th:text="${key.user}"></td>
                 <td th:text="${key.getDepartment().nameOfDepartment}"></td>
                 <td th:text="${key.getToner().tonerName}"></td>
-                <td><a th:href="@{/deletePrinter/{id}(id=${key.id})}" class="btn btn-danger">USUŃ</a></td>
+                <td><a th:href="@{/deletePrinter/{id}(id=${key.id})}" class="btn btn-danger">Usuń</a></td>
                 <td>
-                    <a th:href="@{/showUpdateForm(printerId=${key.id})}" class="btn btn-info">Update</a>
+                    <a th:href="@{/showUpdateForm(printerId=${key.id})}" class="btn btn-success">Update</a>
                 </td>
-
+                <td>
+                    <a th:href="@{/showInfoForm(id=${key.id})}" class="btn btn-info">Info</a>
+                </td>
             </tr>
             </tbody>
         </table>

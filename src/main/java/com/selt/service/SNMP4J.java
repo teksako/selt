@@ -7,9 +7,11 @@ import org.snmp4j.event.ResponseEvent;
 import org.snmp4j.mp.SnmpConstants;
 import org.snmp4j.smi.*;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Service
 public class SNMP4J {
 
     public static final int DEFAULT_VERSION = SnmpConstants.version2c;
@@ -46,14 +48,14 @@ public class SNMP4J {
             DefaultUdpTransportMapping transport = new DefaultUdpTransportMapping();
             snmp = new Snmp(transport);
             snmp.listen();
-           // System.out.println("-------> PDU <-------");
+            // System.out.println("-------> PDU <-------");
             pdu.setType(PDU.GET);
             ResponseEvent respEvent = snmp.send(pdu, target);
             //System.out.println("PeerAddress:" + respEvent.getPeerAddress());
             PDU response = respEvent.getResponse();
 
             if (response == null) {
-                info ="response is null, request time out";
+                info = "response is null, request time out";
             } else {
 
                 // Vector<VariableBinding> vbVect =
@@ -69,7 +71,7 @@ public class SNMP4J {
                 //info = "response pdu size is " + response.size();
                 for (int i = 0; i < response.size(); i++) {
                     VariableBinding vb = response.get(i);
-                    info ="licznik = " + vb.getVariable();
+                    info = "licznik = " + vb.getVariable();
                 }
 
             }
@@ -90,22 +92,4 @@ public class SNMP4J {
         return info;
     }
 
-    public String test(){
-        return "wiadomosc testowa";
-    }
-
-//    /**
-//     *
-//     * @param args
-//     */
-//    public static void main(String[] args) {
-//
-//        String ip = "192.168.13.90";
-//        String community = "public";
-//        String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
-//
-//
-//        SNMP4J.snmpGet(ip, community, oidval);
-//
-//    }
 }
