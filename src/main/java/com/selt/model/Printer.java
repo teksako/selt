@@ -57,5 +57,14 @@ public class Printer {
 
     private Toner toner;
 
+    @OneToMany
+    @JoinTable(
+            name="PRINTER_COUNTER",
+            joinColumns = {@JoinColumn(name="PRINTER_ID")},
+            inverseJoinColumns = {@JoinColumn(name="COUNTER_ID")}
+    )
+
+    private List<Counter> counters;
+
 
 }
