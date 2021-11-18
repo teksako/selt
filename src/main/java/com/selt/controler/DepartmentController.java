@@ -52,27 +52,37 @@ public class DepartmentController {
         ModelAndView model = new ModelAndView("add-department-form");
         Department department = new Department();
         model.addObject("department", department);
-        return getModelAndView(model);
+        return model;
 
     }
-
     @GetMapping({"/showUpdateDepartmentForm"})
     public ModelAndView showUpdateDepartmentForm(@RequestParam Long departmentId) {
         ModelAndView model = new ModelAndView("add-department-form");
-        Department department = departmentRepo.findById(departmentId).get();
-        //Printer printer = printerService.findById(printerId).get();
-        model.addObject("department", department);
-        return getModelAndView(model);
-    }
-
-    @NotNull
-    private ModelAndView getModelAndView(ModelAndView model) {
         model.addObject("username", userService.findUserByUsername().getFullname());
-//        List<Location> locationList = locationService.findAll();
-//        model.addObject("locations", locationList);
-        model.addObject("locationList", locationService.findAll());
+        Department department = departmentRepo.findById(departmentId).get();
+        model.addObject("locationList", departmentService.findActualUse(departmentId));
+        model.addObject("department", department);
         return model;
     }
+
+//
+//    @GetMapping({"/showUpdateDepartmentForm"})
+//    public ModelAndView showUpdateDepartmentForm(@RequestParam Long departmentId) {
+//        ModelAndView model = new ModelAndView("add-department-form");
+//        Department department = departmentRepo.findById(departmentId).get();
+//        //Printer printer = printerService.findById(printerId).get();
+//        model.addObject("department", department);
+//        return getModelAndView(model, departmentId);
+//    }
+//
+//    @NotNull
+//    private ModelAndView getModelAndView(ModelAndView model, long id) {
+//        model.addObject("username", userService.findUserByUsername().getFullname());
+////        List<Location> locationList = locationService.findAll();
+////        model.addObject("locations", locationList);
+//        model.addObject("locationList", departmentService.findActualUse(id));
+//        return model;
+//    }
 
     @GetMapping({"/deleteDepartment/{id}"})
     public String deletePrinter(@PathVariable(value = "id") long id) {

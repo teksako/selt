@@ -87,10 +87,10 @@ public class HardwareController {
         ModelAndView model = new ModelAndView("info-printer-form");
         model.addObject("username", userService.findUserByUsername().getFullname());
         model.addObject("counter", printerService.getActualCounter(id));
-        model.addObject("tonerBlack", printerService.getActualTonerLevel(id,"KMBlackTonerLevel"));
-        model.addObject("tonerCyan", printerService.getActualTonerLevel(id,"KMCyanTonerLevel"));
-        model.addObject("tonerMagenta", printerService.getActualTonerLevel(id,"KMMagentaTonerLevel"));
-        model.addObject("tonerYellow", printerService.getActualTonerLevel(id,"KMYellowTonerLevel"));
+//        model.addObject("tonerBlack", printerService.getActualTonerLevel(id,"KMBlackTonerLevel"));
+//        model.addObject("tonerCyan", printerService.getActualTonerLevel(id,"KMCyanTonerLevel"));
+//        model.addObject("tonerMagenta", printerService.getActualTonerLevel(id,"KMMagentaTonerLevel"));
+//        model.addObject("tonerYellow", printerService.getActualTonerLevel(id,"KMYellowTonerLevel"));
         return model;
     }
 

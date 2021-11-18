@@ -7,6 +7,7 @@ import com.selt.repository.OIDRepo;
 import com.selt.repository.PrinterRepo;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.ietf.jgss.Oid;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -79,20 +80,22 @@ public class PrinterService {
         }
     }
 
-    public String getActualTonerLevel(long id, String oidName){
-        Optional<Printer> printer = printerRepo.findById(id);
-        String community = "public";
-//        String oidBlack =".1.3.6.1.2.1.43.11.1.1.9.1.4";
-//        String oidCyan =".1.3.6.1.2.1.43.11.1.1.9.1.3";
-//        String oidMagenta=".1.3.6.1.2.1.43.11.1.1.9.1.2";
-//        String oidYellow=".1.3.6.1.2.1.43.11.1.1.9.1.1";
-        if(printer.get().getIPAdress().equals("-")){
-            return "Drukarka nie podłączona do sieci!";
-        }
-        else {
-            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidRepo.findAllByOidName("oidName")) + "%";
-        }
-    }
+//    public String getActualTonerLevel(long id, String oidName){
+//        Optional<Printer> printer = printerRepo.findById(id);
+//        //Optional<OID> oid= oidRepo.findAllByOidName(oidName);
+//
+//        String community = "public";
+////        String oidBlack =".1.3.6.1.2.1.43.11.1.1.9.1.4";
+////        String oidCyan =".1.3.6.1.2.1.43.11.1.1.9.1.3";
+////        String oidMagenta=".1.3.6.1.2.1.43.11.1.1.9.1.2";
+////        String oidYellow=".1.3.6.1.2.1.43.11.1.1.9.1.1";
+//        if(printer.get().getIPAdress().equals("-")){
+//            return "Drukarka nie podłączona do sieci!";
+//        }
+//        else {
+//            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oid.get()) + "%";
+//        }
+//    }
 
 
     public void test() {
