@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SELT</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -40,7 +41,6 @@
                     th:value="${Key.id}"
                     th:text="${Key.nameOfDepartment+' '+Key.Locations}"></option>
         </select>
-        </td>
 
 
 
@@ -50,12 +50,36 @@
                     th:value="${Key.id}"
                     th:text="${Key.tonerName}"></option>
         </select>
-        </td>
 
+        <table id="pliki" class="container">
+            <tbody>
+            <tr>
+                <td >
+                    <select id="oid" th:field="*{oid}" class="form-control col-4 mb-4">
+                        <option value="">Wybierz licznik</option>
+                        <option th:each="Key : ${oids}"
+                                th:value="${Key.id}"
+                                th:text="${Key.oidName}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
 
+        </table>
+
+        <div>
+        <input type="button" id="copy" value="Dodaj kolejny licznik" onclick="" class="btn btn-primary"/>
         <input type="submit" value="Zapisz" name="saveButton" class="btn btn-primary">
+</div>
         <input type="hidden" th:field="*{id}" />
     </form>
+    <script type='text/javascript'>
+$("#copy").click(function() {
+  $('#pliki tr').eq(-1).before('<tr>'+$("#pliki tr:last").html()+'</tr>');
+
+});
+
+    </script>
 
     <hr/>
     <a th:href="@{/list-printers}">Back to list</a>

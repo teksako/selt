@@ -21,4 +21,7 @@ public class OID {
 
     @Column
     private String oid;
+
+    @Column
+    private String oidProducent;
 }

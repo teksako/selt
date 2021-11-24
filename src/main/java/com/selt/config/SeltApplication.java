@@ -94,24 +94,34 @@ public class SeltApplication implements CommandLineRunner {
 
         if(oidRepo.findAll().size()==0){
             OID oid = new OID();
-            oid.setOidName("KMBlackTonerLevel");
+            oid.setOidName("Black Toner Level");
             oid.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.4");
+            oid.setOidProducent("Konica Minolta");
             oidRepo.save(oid);
 
             OID oid1 = new OID();
-            oid1.setOidName("KMCyanTonerLevel");
+            oid1.setOidName("Cyan Toner Level");
             oid1.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.3");
+            oid1.setOidProducent("Konica Minolta");
             oidRepo.save(oid1);
 
             OID oid2 = new OID();
-            oid2.setOidName("KMMagentaTonerLevel");
+            oid2.setOidName("Magenta Toner Level");
             oid2.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.2");
+            oid2.setOidProducent("Konica Minolta");
             oidRepo.save(oid2);
 
             OID oid3 = new OID();
-            oid3.setOidName("KMYellowTonerLevel");
+            oid3.setOidName("Yellow Toner Level");
             oid3.setOid(".1.3.6.1.2.1.43.11.1.1.9.1.1");
+            oid3.setOidProducent("Konica Minolta");
             oidRepo.save(oid3);
+
+            OID oid4 = new OID();
+            oid4.setOidName("Total Counter");
+            oid4.setOid(".1.3.6.1.2.1.43.10.2.1.4.1.1");
+            oid4.setOidProducent("Konica Minolta");
+            oidRepo.save(oid4);
 
 
         }

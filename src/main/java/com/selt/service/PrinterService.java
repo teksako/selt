@@ -13,9 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Data
 @Service
@@ -34,6 +32,19 @@ public class PrinterService {
     }
 
     public List<Printer> findAll() {
+//        List<Printer> list = printerRepo.findAll();
+//        List<Printer> list1 = printerRepo.findAll();
+//        List<Printer> finalList = new ArrayList<>();
+//        for (Printer printer : list) {
+//            for (Printer printer1 : list1) {
+//                if (printer.getManufacturer().equals(printer1.getManufacturer()) && printer.getModel().equals(printer1.getModel())) {
+//                    finalList.add(printer);
+//                    //list.remove(printer1);
+//                }
+//                list.remove(printer);
+//            }
+//
+//        }
         return printerRepo.findAll();
     }
 
@@ -45,7 +56,7 @@ public class PrinterService {
 
         //Printer printer=new Printer();
         for (Printer printer : printerList) {
-            String model=printer.getManufacturer();
+            String model = printer.getManufacturer();
             if (model.equals("Konica Minolta") && !printer.getIPAdress().equals("-")) {
                 //System.out.println(IP);
                 IPAdress.add(printer.getIPAdress());
@@ -68,16 +79,21 @@ public class PrinterService {
         //System.out.println(getIP());
     }
 
-    public String getActualCounter(long id){
+
+    public List<String> getActualCounter(long id) {
         Optional<Printer> printer = printerRepo.findById(id);
+        List<OID> oidList = printer.get().getOid();
+        List<String> countList = new ArrayList<>();
         String community = "public";
-        String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
-        if(printer.get().getIPAdress().equals("-")){
-            return "Drukarka nie podłączona do sieci!";
+        //String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
+        if (printer.get().getIPAdress().equals("-")) {
+            countList.add("Drukarka nie podłączona do sieci!");
+        } else {
+            for (OID oid : oidList) {
+                countList.add(SNMP4J.snmpGet(printer.get().getIPAdress(), community, oid.getOid()));
+            }
         }
-        else {
-            return SNMP4J.snmpGet(printer.get().getIPAdress(), community, oidval);
-        }
+        return countList;
     }
 
 //    public String getActualTonerLevel(long id, String oidName){

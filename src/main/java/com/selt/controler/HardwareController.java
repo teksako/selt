@@ -106,7 +106,6 @@ public class HardwareController {
     @PostMapping({"/savePrinter"})
     public String savePrinter(@ModelAttribute Printer printer) {
         printerService.save(printer);
-
         return "redirect:/list-printers";
     }
 
@@ -162,6 +161,8 @@ public class HardwareController {
         model.addObject("username", userService.findUserByUsername().getFullname());
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList = tonerService.findAll();
+        List<OID> oidList=oidRepo.findAll();
+        model.addObject("oids", oidList);
         model.addObject("toners", tonerList);
         model.addObject("departments", departmentList);
 
