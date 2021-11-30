@@ -20,7 +20,7 @@ public class OID {
     private String oidName;
 
     @Column
-    private String oid;
+    private String oidValue;
 
     @Column
     private String oidProducent;

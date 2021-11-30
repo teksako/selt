@@ -99,7 +99,7 @@ public class HardwareController {
         ModelAndView model = new ModelAndView("add-printers-form");
         Printer printer=new Printer();
         model.addObject("printer", printer);
-        return getModelAndView(model);
+        return model;
 
     }
 
@@ -151,23 +151,28 @@ public class HardwareController {
     public ModelAndView showUpdateForm(@RequestParam Long printerId) {
         ModelAndView model = new ModelAndView("add-printers-form");
         Printer printer = printerRepo.findById(printerId).get();
-        //Printer printer = printerService.findById(printerId).get();
-        model.addObject("printer", printer);
-        return getModelAndView(model);
-    }
-
-    @NotNull
-    private ModelAndView getModelAndView(ModelAndView model) {
         model.addObject("username", userService.findUserByUsername().getFullname());
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList = tonerService.findAll();
-        List<OID> oidList=oidRepo.findAll();
-        model.addObject("oids", oidList);
+        model.addObject("printer", printer);
+        model.addObject("oids", printerService.findActualUse(printerId));
         model.addObject("toners", tonerList);
         model.addObject("departments", departmentList);
-
+        //model.addObject("oids", oidList);
         return model;
     }
+
+//    @NotNull
+//    private ModelAndView getModelAndView(ModelAndView model) {
+//        model.addObject("username", userService.findUserByUsername().getFullname());
+//        List<Department> departmentList = departmentService.findAll();
+//        List<Toner> tonerList = tonerService.findAll();
+//
+//        model.addObject("toners", tonerList);
+//        model.addObject("departments", departmentList);
+//
+//        return model;
+//    }
 
 
 //---------------------------END PRINTERS--------------------------------------------------

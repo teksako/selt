@@ -1,5 +1,8 @@
 package com.selt.service;
 
+import com.selt.repository.OIDRepo;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -7,11 +10,13 @@ import org.snmp4j.event.ResponseEvent;
 import org.snmp4j.mp.SnmpConstants;
 import org.snmp4j.smi.*;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
+@Data
 @Service
+@RequiredArgsConstructor
 public class SNMP4J {
 
     public static final int DEFAULT_VERSION = SnmpConstants.version2c;
@@ -19,6 +24,11 @@ public class SNMP4J {
     public static final int DEFAULT_PORT = 161;
     public static final long DEFAULT_TIMEOUT = 3 * 1000L;
     public static final int DEFAULT_RETRY = 3;
+    @Autowired
+    private static OIDRepo oidRepo;
+
+
+
 
 
     public static CommunityTarget createDefault(String ip, String community) {
@@ -33,7 +43,8 @@ public class SNMP4J {
         return target;
     }
 
-    public static String snmpGet(String ip, String community, String oid) {
+    public static String snmpGet(String ip, String community, String oidValue, String oidName) {
+       //String oidName=oidRepo.findOIDByOidValue(oidValue).getOidName();
 
         String info = new String();
 
@@ -43,15 +54,15 @@ public class SNMP4J {
             PDU pdu = new PDU();
             // pdu.add(new VariableBinding(new OID(new int[]
             // {1,3,6,1,2,1,1,2})));
-            pdu.add(new VariableBinding(new OID(oid)));
+            pdu.add(new VariableBinding(new OID(oidValue)));
 
             DefaultUdpTransportMapping transport = new DefaultUdpTransportMapping();
             snmp = new Snmp(transport);
             snmp.listen();
-            // System.out.println("-------> PDU <-------");
+
             pdu.setType(PDU.GET);
             ResponseEvent respEvent = snmp.send(pdu, target);
-            //System.out.println("PeerAddress:" + respEvent.getPeerAddress());
+
             PDU response = respEvent.getResponse();
 
             if (response == null) {
@@ -71,7 +82,8 @@ public class SNMP4J {
                 //info = "response pdu size is " + response.size();
                 for (int i = 0; i < response.size(); i++) {
                     VariableBinding vb = response.get(i);
-                    info = "licznik = " + vb.getVariable();
+                   info = oidName +" " + vb.getVariable() + "%";
+
                 }
 
             }

@@ -1,6 +1,8 @@
 package com.selt.service;
 
 import com.selt.config.SNMP4Jcopy;
+import com.selt.model.Department;
+import com.selt.model.Location;
 import com.selt.model.OID;
 import com.selt.model.Printer;
 import com.selt.repository.OIDRepo;
@@ -32,20 +34,30 @@ public class PrinterService {
     }
 
     public List<Printer> findAll() {
-//        List<Printer> list = printerRepo.findAll();
-//        List<Printer> list1 = printerRepo.findAll();
-//        List<Printer> finalList = new ArrayList<>();
+        List<Printer> list = printerRepo.findAll();
+        List<Printer> list1 = printerRepo.findAll();
+        List<Printer> finalList = new ArrayList<>();
+        for (Printer printer : list) {
+            for (Printer printer1 : list1) {
+                if (!printer.getManufacturer().equals(printer1.getManufacturer()) && !printer.getModel().equals(printer1.getModel())) {
+                    finalList.add(printer);
+                }
+
+            }
+            finalList.remove(printer);
+        }
+
 //        for (Printer printer : list) {
-//            for (Printer printer1 : list1) {
-//                if (printer.getManufacturer().equals(printer1.getManufacturer()) && printer.getModel().equals(printer1.getModel())) {
+//            for (Printer printer1: finalList) {
+//                if(!printer.equals(printer1)){
 //                    finalList.add(printer);
-//                    //list.remove(printer1);
 //                }
-//                list.remove(printer);
 //            }
 //
 //        }
-        return printerRepo.findAll();
+
+
+        return list;
     }
 
     //@Scheduled(fixedDelay = 10000)
@@ -54,14 +66,14 @@ public class PrinterService {
         List<Printer> printerList = printerRepo.findAll();
         List<String> IPAdress = new ArrayList<>();
 
-        //Printer printer=new Printer();
+
         for (Printer printer : printerList) {
             String model = printer.getManufacturer();
             if (model.equals("Konica Minolta") && !printer.getIPAdress().equals("-")) {
-                //System.out.println(IP);
+
                 IPAdress.add(printer.getIPAdress());
             }
-            //System.out.println(printer.toString());
+
         }
         return IPAdress;
     }
@@ -72,25 +84,47 @@ public class PrinterService {
         String community = "public";
         String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
         //String ip="192.168.13.100";
-        for (String ip : getIP()) {
-            System.out.println(SNMP4J.snmpGet(ip, community, oidval));
-        }
+//        for (String ip : getIP()) {
+//            System.out.println(SNMP4J.snmpGet(ip, community, oidval));
+//        }
 
         //System.out.println(getIP());
     }
 
+    public List<OID> findActualUse(long id) {
+        Optional<Printer> printer = printerRepo.findById(id);
+        List<OID> actualList = printer.get().getOid();
+        List<OID> findAll = oidRepo.findAll();
+        List<OID> finallyList = new ArrayList<>();
+        for (OID list : findAll) {
+            if (actualList.size() != 0) {
+                for (OID list2 : actualList) {
+                    if (list.equals(list2)) {
+                        finallyList.add(list);
+                    }
+                }
+                //finallyList.remove(list);
+            } else {
+                finallyList = findAll;
+            }
+
+        }
+        return findAll;
+    }
 
     public List<String> getActualCounter(long id) {
+
         Optional<Printer> printer = printerRepo.findById(id);
         List<OID> oidList = printer.get().getOid();
         List<String> countList = new ArrayList<>();
         String community = "public";
-        //String oidval = ".1.3.6.1.2.1.43.10.2.1.4.1.1";
+        String oidName;
         if (printer.get().getIPAdress().equals("-")) {
             countList.add("Drukarka nie podłączona do sieci!");
         } else {
             for (OID oid : oidList) {
-                countList.add(SNMP4J.snmpGet(printer.get().getIPAdress(), community, oid.getOid()));
+                oidName = oidRepo.findOIDByOidValue(oid.getOidValue()).getOidName();
+                countList.add(SNMP4J.snmpGet(printer.get().getIPAdress(), community, oid.getOidValue(), oidName));
             }
         }
         return countList;
@@ -113,10 +147,6 @@ public class PrinterService {
 //        }
 //    }
 
-
-    public void test() {
-        System.out.println("test2");
-    }
 
     public void save(Printer printer) {
         printerRepo.save(printer);

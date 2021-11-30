@@ -66,7 +66,7 @@ public class Printer {
 
     private List<Counter> counters;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name="PRINTER_OID",
             joinColumns = {@JoinColumn(name="PRINTER_ID")},
