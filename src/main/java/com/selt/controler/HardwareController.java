@@ -87,6 +87,7 @@ public class HardwareController {
         ModelAndView model = new ModelAndView("info-printer-form");
         model.addObject("username", userService.findUserByUsername().getFullname());
         model.addObject("counter", printerService.getActualCounter(id));
+        model.addObject("printer", printerRepo.findById(id).get().getManufacturer()+" "+ printerRepo.findById(id).get().getModel()+" w dziale "+ printerRepo.findById(id).get().getDepartment().getNameOfDepartment());
 //        model.addObject("tonerBlack", printerService.getActualTonerLevel(id,"KMBlackTonerLevel"));
 //        model.addObject("tonerCyan", printerService.getActualTonerLevel(id,"KMCyanTonerLevel"));
 //        model.addObject("tonerMagenta", printerService.getActualTonerLevel(id,"KMMagentaTonerLevel"));
@@ -99,6 +100,10 @@ public class HardwareController {
         ModelAndView model = new ModelAndView("add-printers-form");
         Printer printer=new Printer();
         model.addObject("printer", printer);
+        List<Department> departmentList = departmentService.findAll();
+        List<Toner> tonerList = tonerService.findAll();
+        model.addObject("toners", tonerList);
+        model.addObject("departments", departmentList);
         return model;
 
     }
@@ -140,9 +145,23 @@ public class HardwareController {
             printerList = printerService.findAll();
 
         } else {
-            printerList = printerService.findAllByModelIsLike(mattern);
+            if(printerService.findAllByModelIsLike(mattern).size()!=0){
+                printerList = printerService.findAllByModelIsLike(mattern);
+
+            }
+            else if(printerRepo.findAllByManufacturerIsLike(mattern).size()!=0){
+             printerList=printerRepo.findAllByManufacturerIsLike(mattern);
+            }
+//            else if(printerRepo.findAllByTonerIsLike(mattern).size()!=0){
+//                printerList=printerRepo.findAllByTonerIsLike(mattern);
+//            }
+            else {
+                printerList=printerRepo.findAllByIPAdressIsLike(mattern);
+            }
+
         }
         model.addAttribute("printerList", printerList);
+        model.addAttribute("username", userService.findUserByUsername().getFullname());
         getAllPrinters();
 
     }

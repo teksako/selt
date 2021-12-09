@@ -82,7 +82,7 @@ public class SNMP4J {
                 //info = "response pdu size is " + response.size();
                 for (int i = 0; i < response.size(); i++) {
                     VariableBinding vb = response.get(i);
-                   info = oidName +" " + vb.getVariable() + "%";
+                   info = oidName +" " + vb.getVariable() ;
 
                 }
 

@@ -2,6 +2,7 @@ package com.selt.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Printer {
     @ManyToOne
     @JoinTable(
             name = "PRINTER_TONER",
+
             joinColumns ={@JoinColumn(name ="PRINTER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "TONER_ID")}
     )

@@ -35,27 +35,21 @@ public class PrinterService {
 
     public List<Printer> findAll() {
         List<Printer> list = printerRepo.findAll();
-        List<Printer> list1 = printerRepo.findAll();
-        List<Printer> finalList = new ArrayList<>();
-        for (Printer printer : list) {
-            for (Printer printer1 : list1) {
-                if (!printer.getManufacturer().equals(printer1.getManufacturer()) && !printer.getModel().equals(printer1.getModel())) {
-                    finalList.add(printer);
-                }
-
-            }
-            finalList.remove(printer);
-        }
-
+//        List<Printer> finalList = new ArrayList<>();
 //        for (Printer printer : list) {
-//            for (Printer printer1: finalList) {
-//                if(!printer.equals(printer1)){
-//                    finalList.add(printer);
+//            if(finalList.size()==0){
+//                finalList.add(printer);
+//            }
+//            else {
+//                for (Printer printer1 : finalList) {
+//                    if (!printer.getManufacturer().equals(printer1.getManufacturer()) && !printer.getModel().equals(printer1.getModel())) {
+//                        finalList.add(printer);
+//                    }
+//
 //                }
 //            }
 //
 //        }
-
 
         return list;
     }
@@ -112,6 +106,10 @@ public class PrinterService {
         return findAll;
     }
 
+//    public String getHPTonerLevel(){
+//
+//    }
+
     public List<String> getActualCounter(long id) {
 
         Optional<Printer> printer = printerRepo.findById(id);
@@ -123,7 +121,8 @@ public class PrinterService {
             countList.add("Drukarka nie podłączona do sieci!");
         } else {
             for (OID oid : oidList) {
-                oidName = oidRepo.findOIDByOidValue(oid.getOidValue()).getOidName();
+                oidName = oidRepo.findOIDById(oid.getId()).getOidName();
+
                 countList.add(SNMP4J.snmpGet(printer.get().getIPAdress(), community, oid.getOidValue(), oidName));
             }
         }
