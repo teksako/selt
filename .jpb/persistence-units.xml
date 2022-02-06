@@ -5,6 +5,7 @@
       <persistence-unit name="Default">
         <packages>
           <package value="com.selt.model" />
+          <package value="" />
         </packages>
       </persistence-unit>
     </persistence-units>

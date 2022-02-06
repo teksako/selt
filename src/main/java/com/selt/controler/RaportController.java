@@ -3,18 +3,28 @@ package com.selt.controler;
 import com.selt.model.Magazine;
 import com.selt.model.Raport;
 import com.selt.model.Temp;
+import com.selt.model.Toner;
 import com.selt.repository.RaportRepo;
 import com.selt.service.RaportService;
 import com.selt.service.TempService;
+import com.selt.service.TonerService;
 import com.selt.service.UserService;
 import lombok.Data;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.selt.service.ExportPDF;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -24,11 +34,13 @@ import java.util.List;
 @Data
 public class RaportController {
 
+    private final TonerService tonerService;
     private final RaportService raportService;
     private final RaportRepo raportRepo;
     private final TempService tempService;
     private final UserService userService;
 
+    private List<Raport> raportList;
     @GetMapping({"/Raport"})
     public String getRaport(Model model) {
         model.addAttribute("temp", new Temp());
@@ -68,6 +80,7 @@ public class RaportController {
         }
         model.addAttribute("raport", raport);
         getRaport(model);
+        raportList=raport;
         return "/Raport";
 
     }
@@ -76,5 +89,20 @@ public class RaportController {
     @GetMapping({"/showRaport"})
     public List<Raport> getRaport() {
         return raportService.findAll();
+    }
+
+    @GetMapping(value = "/exportpdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> tonerReports(HttpServletResponse response) throws IOException {
+
+
+
+        ByteArrayInputStream bis = ExportPDF.tonerRaport(raportList);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add("Content-Disposition", "attachment;filename=raport.pdf");
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
     }
 }
