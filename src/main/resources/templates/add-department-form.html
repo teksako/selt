@@ -35,7 +35,7 @@
                     <option value="">Lokalizacja</option>
                     <option th:each="key : ${locationList}"
                             th:value="${key.id}"
-                            th:text="${key.nameOfLocation}">
+                            th:text="${key.getNameOfLocation()}">
                     </option>
                 </select>
                 </td>

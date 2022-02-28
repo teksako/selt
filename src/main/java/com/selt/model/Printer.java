@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -41,11 +42,9 @@ public class Printer {
     private String inventoryNumber;
 
     @OneToOne
-    @JoinTable(
-            name="PRINTER_LOCATION",
-            joinColumns  ={@JoinColumn(name ="PRINTER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "DEPARTMENT_ID")}
-    )
+    @JoinTable(name = "PRINTER_LOCATION",
+            joinColumns = @JoinColumn(name = "PRINTER_ID", referencedColumnName = "PRINTER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "DEPARTMENT_ID"))
 
     private Department department;
 
@@ -58,6 +57,16 @@ public class Printer {
     )
 
     private Toner toner;
+
+    @OneToMany
+    @JoinTable(
+            name = "PRINTER_TONERTEST",
+
+            joinColumns ={@JoinColumn(name ="PRINTER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TONER_ID")}
+    )
+
+    private List<Toner> tonerList;
 
     @OneToMany
     @JoinTable(

@@ -1,17 +1,11 @@
 package com.selt.service;
 
-import com.selt.config.SNMP4Jcopy;
-import com.selt.model.Department;
-import com.selt.model.Location;
-import com.selt.model.OID;
-import com.selt.model.Printer;
+import com.selt.model.*;
 import com.selt.repository.OIDRepo;
 import com.selt.repository.PrinterRepo;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.ietf.jgss.Oid;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +25,10 @@ public class PrinterService {
     public Long getTonerId(Long printerId) {
 
         return printerRepo.findById(printerId).get().getToner().getId();
+    }
+
+    public Optional<Printer> findById(Long id){
+        return printerRepo.findById(id);
     }
 
     public List<Printer> findAll() {
@@ -83,6 +81,12 @@ public class PrinterService {
 //        }
 
         //System.out.println(getIP());
+    }
+
+    public List<Toner> findAlltoner(long id){
+        Optional<Printer> printer=printerRepo.findById(id);
+        List<Toner> tonerList=printer.get().getTonerList();
+        return tonerList;
     }
 
     public List<OID> findActualUse(long id) {
@@ -148,6 +152,10 @@ public class PrinterService {
 
 
     public void save(Printer printer) {
+        Toner toner = new Toner();
+        toner.setId(1l);
+        toner.setTonerName("testowy");
+        printer.setToner(toner);
         printerRepo.save(printer);
     }
 

@@ -73,10 +73,10 @@ public class RaportController {
             raport = raportService.search(mattern);
         }
         if (temp.getRadio() == 6) {
-            raport = raportService.findAllByPrinters_Toner_TonerNameIsLike(mattern);
+            raport = raportService.findAllByTonerIsLike(mattern);
         }
         if (temp.getRadio() == 7) {
-            raport = raportService.findAllByPrinters_Department_NameOfDepartmentIsLike(mattern);
+            raport = raportService.findAllByDepartmentIsLike(mattern);
         }
         model.addAttribute("raport", raport);
         getRaport(model);

@@ -1,6 +1,7 @@
 package com.selt.controler;
 
 import com.selt.model.*;
+import com.selt.repository.MagazineRepo;
 import com.selt.repository.OIDRepo;
 import com.selt.repository.PrinterRepo;
 import com.selt.service.*;
@@ -33,7 +34,8 @@ public class HardwareController {
     private final UserService userService;
     private final PrinterRepo printerRepo;
     private final OIDRepo oidRepo;
-    private final SNMP4J snmp4J;
+//    private final MagazineService magazineService;
+//    private final SNMP4J snmp4J;
 
 
     @ResponseBody
@@ -52,18 +54,20 @@ public class HardwareController {
         model.addAttribute("laptop", laptopList);
         return "/showUserHardware";
     }
-        //---------------------OIDS-------------------------
-        @PostMapping({"/saveOid"})
-        public String savePrinter(@ModelAttribute OID oid) {
-            oidRepo.save(oid);
-            return "redirect:/list-printers";
-        }
+
+    //---------------------OIDS-------------------------
+    @PostMapping({"/saveOid"})
+    public String savePrinter(@ModelAttribute OID oid) {
+        oidRepo.save(oid);
+        return "redirect:/list-printers";
+    }
 
     //-------------------------PRINTERS----------------------------------
     @GetMapping({"/list-printers"})
     public ModelAndView getAllPrinters() {
         ModelAndView model = new ModelAndView("list-printers");
         model.addObject("temp", new Temp());
+
         model.addObject("username", userService.findUserByUsername().getFullname());
         model.addObject("printerList", printerService.findAll());
         return model;
@@ -83,22 +87,29 @@ public class HardwareController {
 //    }
 
     @GetMapping({"/showInfoForm"})
-    public ModelAndView showInfoForm(@RequestParam long id){
+    public ModelAndView showInfoForm(@RequestParam long id) {
         ModelAndView model = new ModelAndView("info-printer-form");
+        model.addObject("temp", new Temp());
+        //model.addObject("magazine", new Magazine());
         model.addObject("username", userService.findUserByUsername().getFullname());
         model.addObject("counter", printerService.getActualCounter(id));
-        model.addObject("printer", printerRepo.findById(id).get().getManufacturer()+" "+ printerRepo.findById(id).get().getModel()+" w dziale "+ printerRepo.findById(id).get().getDepartment().getNameOfDepartment());
-//        model.addObject("tonerBlack", printerService.getActualTonerLevel(id,"KMBlackTonerLevel"));
+        model.addObject("printer", printerRepo.findById(id).get().getManufacturer() + " " + printerRepo.findById(id).get().getModel() + " w dziale " + printerRepo.findById(id).get().getDepartment().getNameOfDepartment());
+        model.addObject("printerId", printerRepo.findById(id).get().getId().toString());
+        model.addObject("tonerList", printerService.findAlltoner(id));
+        //        model.addObject("tonerBlack", printerService.getActualTonerLevel(id,"KMBlackTonerLevel"));
 //        model.addObject("tonerCyan", printerService.getActualTonerLevel(id,"KMCyanTonerLevel"));
 //        model.addObject("tonerMagenta", printerService.getActualTonerLevel(id,"KMMagentaTonerLevel"));
 //        model.addObject("tonerYellow", printerService.getActualTonerLevel(id,"KMYellowTonerLevel"));
         return model;
     }
 
+//
+
+
     @GetMapping("/addPrinterForm")
     public ModelAndView addPrinterForm() {
         ModelAndView model = new ModelAndView("add-printers-form");
-        Printer printer=new Printer();
+        Printer printer = new Printer();
         model.addObject("printer", printer);
         List<Department> departmentList = departmentService.findAll();
         List<Toner> tonerList = tonerService.findAll();
@@ -131,7 +142,6 @@ public class HardwareController {
     }
 
 
-
     @PostMapping({"/list-printers"})
     public void searchPrinters(@ModelAttribute("temp") Temp temp, Model model) {
 
@@ -145,18 +155,17 @@ public class HardwareController {
             printerList = printerService.findAll();
 
         } else {
-            if(printerService.findAllByModelIsLike(mattern).size()!=0){
+            if (printerService.findAllByModelIsLike(mattern).size() != 0) {
                 printerList = printerService.findAllByModelIsLike(mattern);
 
-            }
-            else if(printerRepo.findAllByManufacturerIsLike(mattern).size()!=0){
-             printerList=printerRepo.findAllByManufacturerIsLike(mattern);
+            } else if (printerRepo.findAllByManufacturerIsLike(mattern).size() != 0) {
+                printerList = printerRepo.findAllByManufacturerIsLike(mattern);
             }
 //            else if(printerRepo.findAllByTonerIsLike(mattern).size()!=0){
 //                printerList=printerRepo.findAllByTonerIsLike(mattern);
 //            }
             else {
-                printerList=printerRepo.findAllByIPAdressIsLike(mattern);
+                printerList = printerRepo.findAllByIPAdressIsLike(mattern);
             }
 
         }

@@ -1,8 +1,6 @@
 package com.selt.service;
 
-import com.selt.model.Location;
 import com.selt.model.Toner;
-import com.selt.model.Magazine;
 import com.selt.repository.TonerRepo;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,20 @@ import java.util.Optional;
 public class TonerService {
 
     private final TonerRepo tonerRepo;
-    private final MagazineService magazineService;
+    //private final MagazineService magazineService;
 
     public void save(Toner toner) {
-        Magazine magazine = new Magazine();
+        //Magazine magazine = new Magazine();
         tonerRepo.save(toner);
-        magazine.setCount(0l);
-        magazine.setToner(toner);
-        magazineService.save(magazine);
+//        magazine.setCount(0l);
+//        magazine.setToner(toner);
+//        magazineService.save(magazine);
+    }
+
+    public Optional<Toner> findById(Long id){
+
+        return tonerRepo.findById(id);
+
     }
 
     public void delete(Toner toner) {

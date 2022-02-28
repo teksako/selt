@@ -51,6 +51,7 @@ public class DepartmentController {
     public ModelAndView addPrinterForm() {
         ModelAndView model = new ModelAndView("add-department-form");
         Department department = new Department();
+        model.addObject("locationList", locationService.findAll());
         model.addObject("department", department);
         return model;
 
@@ -60,7 +61,7 @@ public class DepartmentController {
         ModelAndView model = new ModelAndView("add-department-form");
         model.addObject("username", userService.findUserByUsername().getFullname());
         Department department = departmentRepo.findById(departmentId).get();
-        model.addObject("locationList", departmentService.findActualUse(departmentId));
+        model.addObject("locationList", locationService.findAll());
         model.addObject("department", department);
         return model;
     }

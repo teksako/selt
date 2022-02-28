@@ -13,11 +13,13 @@ import java.util.Date;
 @Entity
 public class Temp {
 
+  private Long id;
   private Long radio;
   private String start;
   private String end;
   private String tempString;
-  private Long id;
+  private Long id_1;
+  private Long id_2;
 
 
   public void setId(Long id) {

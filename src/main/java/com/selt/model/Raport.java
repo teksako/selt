@@ -15,6 +15,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Raport {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RAPORT_ID")
@@ -26,22 +27,40 @@ public class Raport {
     @Column
     private Long count;
 
+    @Column
+    private String printer;
 
-    @OneToOne
-    @JoinTable
-            (
-                    name = "toner_raport",
-                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
-                    inverseJoinColumns = {@JoinColumn(name = "PRINTER_ID")}
-            )
-    private Printer printers;
+    @Column
+    private String toner;
 
-    @OneToOne
-    @JoinTable
-            (
-                    name = "user_raport",
-                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
-                    inverseJoinColumns = {@JoinColumn(name = "USER_ID")}
-            )
-    private User user;
+    @Column
+    private String department;
+
+    @Column
+    private String MPK;
+
+    @Column
+    private String inventoryNumber;
+
+    @Column
+    private String user;
+
+
+//    @OneToOne
+//    @JoinTable
+//            (
+//                    name = "toner_raport",
+//                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
+//                    inverseJoinColumns = {@JoinColumn(name = "PRINTER_ID")}
+//            )
+//    private Printer printers;
+//
+//    @OneToOne
+//    @JoinTable
+//            (
+//                    name = "user_raport",
+//                    joinColumns = {@JoinColumn(name = "RAPORT_ID")},
+//                    inverseJoinColumns = {@JoinColumn(name = "USER_ID")}
+//            )
+//    private User user;
 }

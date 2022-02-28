@@ -78,7 +78,7 @@
                 <td th:text="${key.inventoryNumber}"></td>
                 <td th:text="${key.user}"></td>
                 <td th:text="${key.getDepartment().nameOfDepartment}"></td>
-                <td th:text="${key.getToner().tonerName}"></td>
+                <td th:text="${key.getTonerList()}"></td>
                 <td><a th:href="@{/deletePrinter/{id}(id=${key.id})}" class="btn btn-danger">Usuń</a></td>
                 <td>
                     <a th:href="@{/showUpdateForm(printerId=${key.id})}" class="btn btn-success">Update</a>

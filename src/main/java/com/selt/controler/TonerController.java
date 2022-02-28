@@ -3,6 +3,7 @@ package com.selt.controler;
 import com.selt.model.Location;
 import com.selt.model.Toner;
 import com.selt.repository.TonerRepo;
+import com.selt.service.MagazineService;
 import com.selt.service.TonerService;
 import com.selt.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class TonerController {
     private final TonerService tonerService;
     private final UserService userService;
     private final TonerRepo tonerRepo;
+    private final MagazineService magazineService;
     @GetMapping({"/list-toners"})
     public ModelAndView getAllToner() {
         ModelAndView model = new ModelAndView("/list-toners");
@@ -34,6 +36,7 @@ public class TonerController {
     @PostMapping({"/saveToner"})
     public String saveToner(@ModelAttribute Toner toner) {
         tonerService.save(toner);
+        magazineService.save(toner);
         return "redirect:list-toners";
     }
 

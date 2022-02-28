@@ -1,15 +1,13 @@
 package com.selt.controler;
 
 import com.selt.model.*;
-import com.selt.service.MagazineService;
-import com.selt.service.PrinterService;
-import com.selt.service.TonerService;
-import com.selt.service.UserService;
+import com.selt.service.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +20,9 @@ public class MagazineController {
     private final MagazineService magazineService;
     private final PrinterService printerService;
     private final UserService userService;
+    private final HardwareController hardwareController;
+    private final RaportService raportService;
+
 
     @GetMapping({"/Magazine"})
     public void userPage(Model model) {
@@ -66,6 +67,26 @@ public class MagazineController {
 //
 //    }
 
+    @PostMapping({"/removeMagazine2"})
+    public ModelAndView removeToner2(@ModelAttribute("temp") Temp temp){
+        ModelAndView model = new ModelAndView("info-printer-form");
+        Long tonerId=temp.getId_1();
+        System.out.println("id toneru " + tonerId );
+        Long count = temp.getRadio();
+        System.out.println("ile chce: " + count);
+        Long printerId = temp.getId_2();
+        System.out.println("id drukarki: " + printerId);
+        if(magazineService.magazineValidation(count, tonerId) == true){
+        magazineService.removeFromMagazine(tonerId,count);
+        raportService.create(tonerId,count,printerId);}
+        else{
+            model.addObject("allert", "Nie masz tyle na stanie!");
+        }
+
+
+        return model;
+    }
+//-------------------------druga WERSJA-----------------------------------------------
     @PostMapping({"/removeMagazine"})
     public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
         Long chce=magazine.getCount();
@@ -80,6 +101,8 @@ public class MagazineController {
         return "/Magazine";
 
     }
+//-------------------------------------------------------------------------------------------------
+
 
     @PostMapping({"/getMagazine"})
     public String showMagazine(@ModelAttribute("temp") Temp temp, Model model) {

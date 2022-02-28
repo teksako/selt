@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface MagazineRepo extends JpaRepository<Magazine, Long> {
     List<Magazine> findAllMagazinesByToner_TonerNameIsLike(String temp);
+    Magazine findByTonerId(long id);
 }

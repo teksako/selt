@@ -83,7 +83,7 @@ public class ExportPDF {
             for (Raport raport :raportList) {
 
                 PdfPCell cell;
-                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinters().getToner().getTonerName())));
+                cell=new PdfPCell(new Phrase(String.valueOf(raport.getToner())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
@@ -94,22 +94,22 @@ public class ExportPDF {
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinters().getModel())));
+                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinter())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinters().getDepartment().getNameOfDepartment())));
+                cell=new PdfPCell(new Phrase(String.valueOf(raport.getDepartment())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinters().getDepartment().getMPK())));
+                cell=new PdfPCell(new Phrase(String.valueOf(raport.getMPK())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell=new PdfPCell(new Phrase(String.valueOf(raport.getPrinters().getInventoryNumber())));
+                cell=new PdfPCell(new Phrase(String.valueOf(raport.getInventoryNumber())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);

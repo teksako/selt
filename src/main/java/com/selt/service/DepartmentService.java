@@ -32,24 +32,24 @@ public class DepartmentService {
         return departmentRepo.findAll();
     }
 
-    public List<Location> findActualUse(long id) {
-        Optional<Department> department = departmentRepo.findById(id);
-        List<Location> actualList = department.get().getLocations();
-        List<Location> findAll = locationService.findAll();
-        List<Location> finallyList = new ArrayList<>();
-        for (Location list : findAll) {
-            for (Location list2 : actualList) {
-                if(actualList.size()==0){
-                    return findAll;
-                }
-                else if (!list.equals(list2)) {
-                    finallyList.add(list);
-                }
-            }
-            finallyList.remove(list);
-        }
-        return finallyList;
-    }
+//    public List<Location> findActualUse(long id) {
+//        Optional<Department> department = departmentRepo.findById(id);
+//        List<Location> actualList = department.get().getLocations();
+//        List<Location> findAll = locationService.findAll();
+//        List<Location> finallyList = new ArrayList<>();
+//        for (Location list : findAll) {
+//            for (Location list2 : actualList) {
+//                if(actualList.size()==0){
+//                    return findAll;
+//                }
+//                else if (!list.equals(list2)) {
+//                    finallyList.add(list);
+//                }
+//            }
+//            finallyList.remove(list);
+//        }
+//        return findAll;
+//    }
 
     public void deleteDepartment(long id) {
         Optional<Department> department = departmentRepo.findById(id);

@@ -1,8 +1,6 @@
 package com.selt.service;
 
-import com.selt.model.Raport;
-import com.selt.model.Temp;
-import com.selt.model.User;
+import com.selt.model.*;
 import com.selt.repository.RaportRepo;
 import lombok.Data;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -20,15 +19,32 @@ public class RaportService {
     private LocalDate date;
     private final TempService tempService;
     private final UserService userService;
+    private final TonerService tonerService;
+    private final PrinterService printerService;
 
 
     public List<Raport> findAll() {
         return raportRepo.findAll();
     }
 
+    public void create(Long tonerId, Long count, Long printerId){
+        Raport raport = new Raport();
+        Optional<Printer> printer;
+        printer = printerService.findById(printerId);
+        raport.setToner(tonerService.findById(tonerId).get().getTonerName());
+        raport.setCount(count);
+        raport.setPrinter(printer.get().getManufacturer()+" " +printer.get().getModel());
+        raport.setInventoryNumber(printer.get().getInventoryNumber());
+        raport.setDepartment(printer.get().getDepartment().getNameOfDepartment());
+        raport.setMPK(printer.get().getDepartment().getMPK().toString());
+        raport.setDate(LocalDate.now());
+        raport.setUser(userService.findUserByUsername().getFullname());
+        raportRepo.save(raport);
+    }
+
     public void save(Raport raport) {
         raport.setDate(LocalDate.now());
-        raport.setUser(userService.findUserByUsername());
+        raport.setUser(userService.findUserByUsername().getFullname());
         raportRepo.save(raport);
     }
 
@@ -90,7 +106,7 @@ public class RaportService {
     }
 
     public List<Raport> search(String temp) {
-        return raportRepo.findAllByPrinters_ModelIsLike(temp);
+        return raportRepo.findAllByPrinterIsLike(temp);
     }
 
     public List<Raport> findAllByDateBetween(LocalDate start, LocalDate end) {
@@ -98,12 +114,12 @@ public class RaportService {
 
     }
 
-    public List<Raport> findAllByPrinters_Toner_TonerNameIsLike(String temp) {
-        return raportRepo.findAllByPrinters_Toner_TonerNameIsLike(temp);
+    public List<Raport> findAllByTonerIsLike(String temp) {
+        return raportRepo.findAllByTonerIsLike(temp);
     }
 
-    public List<Raport> findAllByPrinters_Department_NameOfDepartmentIsLike(String temp) {
-        return raportRepo.findAllByPrinters_Department_NameOfDepartmentIsLike(temp);
+    public List<Raport> findAllByDepartmentIsLike(String temp) {
+        return raportRepo.findAllByDepartmentIsLike(temp);
     }
 
 }

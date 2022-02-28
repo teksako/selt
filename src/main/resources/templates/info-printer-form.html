@@ -25,7 +25,7 @@
 </div>
 <a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
 <hr/>
-
+<a class="navbar-brand" th:text="${'ID drukarki: ' +printerId}" ></a>
 <a class="navbar-brand" th:text="${printer}"></a>
 <table class="table table-bordered table-striped">
         <tbody>
@@ -36,6 +36,33 @@
     </tr>
     </tbody>
 </table>
+
+
+
+<p>Wydaj toner.</p>
+<form th:action="@{/removeMagazine2}" th:object="${temp}" method="post">
+
+<select id="tonerlist" th:field="*{id_1}" class="form-control col-4 mb-4">
+
+<option value="">Wybierz toner</option>
+<option th:each="Key : ${tonerList}"
+        th:value="${Key.id}"
+        th:text="${Key.tonerName}"></option>
+</select>
+
+<div th:with="idPrinter=${printerId}" >
+
+  <input type="hidden" th:value="${idPrinter}" th:name="id_2" th:id="id_2"/>
+    </div>
+    <input id="subtoner" th:field="*{radio}" type="text">
+    <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+</form>
+<p th:text="${allert}"></p>
+<!--<form th:action="@{/removeMagazine2}" th:object="${printer}" method="post">
+    <i<input type="hidden" th:field="*{id}" />
+    <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+</form>
+-->
 <a th:href="@{/list-printers}">Back to list</a>
 <a th:href="@{/list-oids}">Lista liczników</a>
 </body>

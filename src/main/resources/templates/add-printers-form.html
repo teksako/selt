@@ -44,13 +44,14 @@
 
 
 
-        <select id="toner" th:field="*{toner}" class="form-control col-4 mb-4">
+   <!--    <select id="toner" th:field="*{toner}" class="form-control col-4 mb-4">
             <option value="">Wybierz toner</option>
             <option th:each="Key : ${toners}"
                     th:value="${Key.id}"
                     th:text="${Key.tonerName}"></option>
         </select>
 
+-->
         <table id="pliki" class="container">
             <tbody>
             <tr>
@@ -64,11 +65,27 @@
                 </td>
             </tr>
             </tbody>
-
         </table>
+
+        <table id="pliki2" class="container">
+            <tbody>
+            <tr>
+                <td >
+                    <select id="tonerlist" th:field="*{tonerList}" class="form-control col-4 mb-4">
+                        <option value="">Wybierz toner</option>
+                        <option th:each="Key : ${toners}"
+                                th:value="${Key.id}"
+                                th:text="${Key.tonerName}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
 
         <div>
         <input type="button" id="copy" value="Dodaj kolejny licznik" onclick="" class="btn btn-primary"/>
+            <input type="button" id="copy2" value="Dodaj kolejny toner" onclick="" class="btn btn-primary"/>
         <input type="submit" value="Zapisz" name="saveButton" class="btn btn-primary">
 </div>
         <input type="hidden" th:field="*{id}" />
@@ -76,6 +93,13 @@
     <script type='text/javascript'>
 $("#copy").click(function() {
   $('#pliki tr').eq(-1).before('<tr>'+$("#pliki tr:last").html()+'</tr>');
+
+});
+</script>
+
+    <script type='text/javascript'>
+$("#copy2").click(function() {
+  $('#pliki2 tr').eq(-1).before('<tr>'+$("#pliki2 tr:last").html()+'</tr>');
 
 });
 

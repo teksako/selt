@@ -183,7 +183,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="key : ${raport}" style="text-align: center; ">
+    <!--<tr th:each="key : ${raport}" style="text-align: center; ">
         <div sec:authorize="isAuthenticated()">
             <td th:text="${key.Printers.getToner().getTonerName()}"></td>
             <td th:text="${key.count}"></td>
@@ -192,10 +192,20 @@
             <td th:text="${key.Printers.getDepartment().getMPK()}"></td>
             <td th:text="${key.Printers.getInventoryNumber()}"></td>
             <td th:text="${key.date}"></td>
+        </div>-->
+    <tr th:each="key : ${raport}" style="text-align: center;">
+        <div sec:authorize="isAuthenticated()">
+            <td th:text="${key.toner}"></td>
+            <td th:text="${key.count}"></td>
+            <td th:text="${key.printer}"></td>
+            <td th:text="${key.inventoryNumber}"></td>
+            <td th:text="${key.department}"></td>
+            <td th:text="${key.MPK}"></td>
+            <td th:text="${key.date}"></td>
         </div>
 
         <div sec:authorize="hasAuthority('ADMIN')">
-            <td th:text="${key.User.getFullname()}"></td>
+            <td th:text="${key.user}"></td>
         </div>
 
 
