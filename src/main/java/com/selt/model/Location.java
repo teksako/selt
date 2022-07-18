@@ -19,4 +19,16 @@ public class Location {
 
     @Column
     private String nameOfLocation;
+
+    @Column
+    private String street;
+
+    @Column
+    private String number;
+
+    @Column
+    private String city;
+
+    @Column
+    private String postalCode;
 }

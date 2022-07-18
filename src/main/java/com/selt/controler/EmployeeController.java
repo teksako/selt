@@ -31,10 +31,11 @@ public class EmployeeController {
     }
 
     @PostMapping({"/addEmployee"})
-    public String saveEmployee(Employee employee){
+    public String saveEmployee(Employee employee, Model model){
 //        if(bindingResult.hasErrors()){
 //            return "/addEmployee";
 //        }
+        addEmployee(model);
         employeeService.save(employee);
         return "/addEmployee";
     }

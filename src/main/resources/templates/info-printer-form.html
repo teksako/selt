@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SELT</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<body>
+<header>
+    <nav class="navbar navbar-light bg-primary">
+        <div class="av navbar-nav navbar-right">
+
+            <form th:action="@{/logout}" method="post"><strong><input type="submit" value="Wyloguj"
+                                                                      class="navbar-brand"/></strong></form>
+            <input type="button" value="Powrót" name="backButton"
+            onClick="javascript:window.location.href='/index'" class="navbar-brand">
+        </div>
+    </nav>
+</header>
+
+<div class="progress">
+    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<a class="navbar-brand" th:text="${'Zalogowany użytkownik: ' +username}"></a>
+<hr/>
+<a class="navbar-brand" th:text="${'ID drukarki: ' +printerId}" ></a>
+<a class="navbar-brand" th:text="${printer}"></a>
+<table class="table table-bordered table-striped">
+        <tbody>
+    <tr th:each="key : ${counter}" style="text-align: center; ">
+
+        <td th:text="${key}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+<p>Wydaj toner.</p>
+<form th:action="@{/removeMagazine2}" th:object="${temp}" method="post">
+
+<select id="tonerlist" th:field="*{id_1}" class="form-control col-4 mb-4">
+
+<option value="">Wybierz toner</option>
+<option th:each="Key : ${tonerList}"
+        th:value="${Key.id}"
+        th:text="${Key.tonerName}"></option>
+</select>
+
+<div th:with="idPrinter=${printerId}" >
+
+  <input type="hidden" th:value="${idPrinter}" th:name="id_2" th:id="id_2"/>
+    </div>
+    <input id="subtoner" th:field="*{radio}" type="text">
+    <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+</form>
+<p th:text="${allert}"></p>
+<!--<form th:action="@{/removeMagazine2}" th:object="${printer}" method="post">
+    <i<input type="hidden" th:field="*{id}" />
+    <input type="submit" value="Aktualizuj" name="saveButton" class="mySubmitButton">
+</form>
+-->
+<a th:href="@{/list-printers}">Back to list</a>
+<a th:href="@{/list-oids}">Lista liczników</a>
+</body>
+</html>

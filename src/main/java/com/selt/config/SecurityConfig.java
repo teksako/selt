@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.sql.DataSource;
-
+@EnableWebMvc
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -20,16 +22,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.jdbcAuthentication()
-                .usersByUsernameQuery("SELECT u.username, u.password,1 FROM user u WHERE u.username=?")
-                .authoritiesByUsernameQuery("SELECT u.username, r.name, 1 " +
+                .usersByUsernameQuery("SELECT u.login, u.password,1 FROM user u WHERE u.login=?")
+                .authoritiesByUsernameQuery("SELECT u.login, r.name, 1 " +
                         "FROM user u " +
                         "INNER JOIN user_role ur ON ur.user_id = u.user_id " +
                         "INNER JOIN role r ON r.role_id = ur.role_id " +
-                        "WHERE u.username=?")
+                        "WHERE u.login=?")
                 .dataSource(dataSource);
 
     }
-
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(
+//                "/webjars/**",
+//                "/img/**",
+//                "/css/**",
+//                "/js/**")
+//                .addResourceLocations(
+//                        "classpath:/META-INF/resources/webjars/",
+//                        "classpath:/static/img/",
+//                        "classpath:/static/css/",
+//                        "classpath:/static/js/");
+//    }
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -37,34 +51,55 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/css/**", "/static/css/**", "/js/**");
     }
 
+
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/dba/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/login").permitAll()
                 .antMatchers("/index").authenticated()
+                .antMatchers("/changePassword").authenticated()
+                .antMatchers("/resetPassword").hasAuthority("ADMIN")
                 .antMatchers("/showLaptops").authenticated()
                 .antMatchers("/addEmployee").authenticated()
                 .antMatchers("/addLaptop").hasAuthority("ADMIN")
                 .antMatchers("/addWindowsLicense").hasAuthority("ADMIN")
                 .antMatchers("/addOfficeLicense").hasAuthority("ADMIN")
                 .antMatchers("/addDepartment").hasAuthority("ADMIN")
-                .antMatchers("/addUser").hasAuthority("ADMIN")
-                .antMatchers("/addLocation").hasAuthority("ADMIN")
+                .antMatchers("/list-users").authenticated()
+                .antMatchers("/list-locations").hasAuthority("ADMIN")
                 .antMatchers("/addComputer").hasAuthority("ADMIN")
                 .antMatchers("/showUserHardware").hasAuthority("ADMIN")
-                .antMatchers("/addToner").hasAuthority("ADMIN")
+                .antMatchers("/list-toners").hasAuthority("ADMIN")
                 .antMatchers("/addPhone").hasAuthority("ADMIN")
                 .antMatchers("/addPhoneNumber").hasAuthority("ADMIN")
-                .antMatchers("/addPrinter").hasAuthority("ADMIN")
+                .antMatchers("/list-printers").hasAuthority("ADMIN")
+                .antMatchers("/showUpdateForm").hasAuthority("ADMIN")
                 .antMatchers("/deleteToner").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
                 .defaultSuccessUrl("/index", true);
 
-
-
-
         httpSecurity.csrf().disable()
                 .headers().frameOptions().disable();
+//
+//        httpSecurity.formLogin()
+//                .loginPage("/index")
+//                .loginProcessingUrl("/appLogin")
+//                .usernameParameter("username")
+//                .passwordParameter("pass");
+//                //.defaultSuccessUrl("/index", true);
+//
+//        httpSecurity.csrf().disable()
+//                .headers().frameOptions().disable();
+//
+//        httpSecurity.logout()
+//                .logoutSuccessUrl("/login")
+//                .logoutUrl("/logout");
+
 
 
     }

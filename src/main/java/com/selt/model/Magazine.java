@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "MAGAZINE")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class TonerMagazine {
+public class Magazine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

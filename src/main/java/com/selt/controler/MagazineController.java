@@ -1,37 +1,128 @@
 package com.selt.controler;
 
 import com.selt.model.*;
-import com.selt.repository.TonerRepo;
-import com.selt.service.MagazineService;
-import com.selt.service.TonerService;
-import lombok.RequiredArgsConstructor;
+import com.selt.service.*;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
+
 @Controller
-@RequiredArgsConstructor
+@Data
 public class MagazineController {
 
     private final TonerService tonerService;
     private final MagazineService magazineService;
+    private final PrinterService printerService;
+    private final UserService userService;
+    private final HardwareController hardwareController;
+    private final RaportService raportService;
+
 
     @GetMapping({"/Magazine"})
-    public String userPage(Model model){
-        model.addAttribute("tonerek",new TonerMagazine());
-        List<Toner> tonerList=tonerService.findAll();
-        model.addAttribute("tonerList", tonerList);
+    public void userPage(Model model) {
+        model.addAttribute("temp", new Temp());
+        model.addAttribute("magazine", new Magazine());
+        model.addAttribute("printers", new Printer());
+        model.addAttribute("username",  userService.findUserByUsername().getFullname());
+        //model.addAttribute("counter", number);
+        //List<Toner> tonerList = tonerService.findAll();
+        List<Magazine> magazines = magazineService.findAll();
+        model.addAttribute("tonerList", magazines);
+        List<Printer> printerList = printerService.findAll();
+        model.addAttribute("printer", printerList);
+
+    }
+
+    @PostMapping({"/addMagazine"})
+    public String addToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
+        //String allert="Ujemna liczba!";
+        if (magazine.getCount() < 1l) {
+            model.addAttribute("allert", "Ujemna liczba!");
+        } else {
+            magazineService.updateInventory(magazine, magazineService.getActualCount(magazine));
+        }
+        userPage(model);
+        return "/Magazine";
+
+    }
+
+//  ----pierwotna wersja--------------------------------------------------------------------------------
+//    @PostMapping({"/removeMagazine"})
+//    public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model, Printer printer) {
+//        //String allert="Ujemna liczba!";
+//    // magazineService.getFromPrinter(printer);
+//        if(magazine.getCount()>magazineService.getActualCount(magazine)){
+//            model.addAttribute("allert", "Nie masz tyle na stanie!");
+//        }
+//        else {
+//            magazineService.removeInventory(magazine, magazineService.getActualCount(magazine));
+//        }
+//        return "/Magazine";
+//
+//    }
+
+    @PostMapping({"/removeMagazine2"})
+    public ModelAndView removeToner2(@ModelAttribute("temp") Temp temp){
+        ModelAndView model = new ModelAndView("info-printer-form");
+        Long tonerId=temp.getId_1();
+        System.out.println("id toneru " + tonerId );
+        Long count = temp.getRadio();
+        System.out.println("ile chce: " + count);
+        Long printerId = temp.getId_2();
+        System.out.println("id drukarki: " + printerId);
+        if(magazineService.magazineValidation(count, tonerId) == true){
+        magazineService.removeFromMagazine(tonerId,count);
+        raportService.create(tonerId,count,printerId);}
+        else{
+            model.addObject("allert", "Nie masz tyle na stanie!");
+        }
+
+
+        return model;
+    }
+//-------------------------druga WERSJA-----------------------------------------------
+    @PostMapping({"/removeMagazine"})
+    public String removeToner(@ModelAttribute("magazine") Magazine magazine, Model model) {
+        Long chce=magazine.getCount();
+        Long mam=magazineService.getActualCountByPrinter(printerService.getTonerId(magazine.getId()));
+        if ( chce> mam) {
+            model.addAttribute("allert", "Nie masz tyle na stanie!");
+        } else {
+
+            magazineService.removeInventory(magazine, magazineService.getActualCountByPrinter(printerService.getTonerId(magazine.getId())));
+        }
+        userPage(model);
+        return "/Magazine";
+
+    }
+//-------------------------------------------------------------------------------------------------
+
+
+    @PostMapping({"/getMagazine"})
+    public String showMagazine(@ModelAttribute("temp") Temp temp, Model model) {
+        String matterm = '%' + temp.getTempString() + '%';
+        List<Magazine> foundMagazines = magazineService.findAllMagazinesByToner_TonerNameIsLike(matterm);
+
+        if (foundMagazines.size() == 0) {
+
+            model.addAttribute("error", "Nie ma takiego toneru");
+        }
+        model.addAttribute("tonerLists", foundMagazines);
+        userPage(model);
         return "/Magazine";
     }
 
-    @PostMapping({"/Magazine"})
-    public String saveLocation(TonerMagazine tonerMagazine){
-        magazineService.addNew(tonerMagazine);
-        return "/Magazine";
+    @ResponseBody
+    @GetMapping({"/showMagazine"})
+    public List<Magazine> getMagazine() {
+        return magazineService.findAll();
     }
-
 
 }
 

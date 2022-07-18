@@ -20,8 +20,8 @@ public class User {
     @Column(name = "USER_ID")
     private Long id;
 
-    @Column
-    private String username;
+    @Column(unique = true)
+    private String login;
 
     @Column
     private String fullname;
